@@ -1,9 +1,9 @@
-import User from "../models/user";
-import Token from "../models/token";
+import User from "../models/user.js";
+import Token from "../models/token.js";
 import * as bcrypt from "bcryptjs";
 import jwt  from "jsonwebtoken";
 import crypto from "crypto";
-import sendEmail from "../common/mail";
+import sendEmail from "../common/mail.js";
 
 
 // Register new user
@@ -119,6 +119,7 @@ const forgotPassword = async(req,res)=>{
         // generate reset link
         const token = jwt.sign(data, JWT_SECRET, {expiresIn : "10m"});
         const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token}`;
+        await sendEmail(email,"Reset Password",{name : user.firstName ,link : link},"resetPassword.ejs")
         res.send(`Password reset link has been sent to ${email}`);
     } catch (error) {
         console.log(error)
@@ -145,7 +146,7 @@ const resetPassword = async(req,res)=>{
         const hash = await bcrypt.hash(newPassword, salt);
         await User.updateOne({_id : id},{$set : {password : hash}},{new : true});
         await token.delete();
-
+        await sendEmail(user.email,"Change Password confirmation",{name :user.firstName},"confirmResetPassword.ejs")
         res.status(200).json("Password changed successfully. Please login with your new password");
         
 

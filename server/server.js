@@ -1,11 +1,12 @@
 //start a new Express application
-import express from "express";
+import express, { application } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import db from './config/connect.js';
+import authRoutes from "./routes/auth.js";
 
 
 //Configuration and Middlewares
@@ -17,7 +18,7 @@ app.use(helmet());
 app.use(bodyParser.json())
 
 // Initialize Routes
-
+application.use('/api', authRoutes)
 
 
 // connect to database
