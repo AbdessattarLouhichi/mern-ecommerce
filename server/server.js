@@ -6,7 +6,8 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import db from './config/connect.js';
-import authRoutes from "./routes/auth.js";
+import authRoutes from "./routes/authApi.js";
+import userRoutes from "./routes/userApi.js";
 
 
 //Configuration and Middlewares
@@ -18,7 +19,9 @@ app.use(helmet());
 app.use(bodyParser.json())
 
 // Initialize Routes
-application.use('/api', authRoutes)
+app.use('/api', authRoutes)
+app.use('/api', userRoutes)
+
 
 
 // connect to database
