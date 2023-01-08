@@ -8,6 +8,12 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    shippingAddress: {
+        street: {type: String, required: 'Street is required'},
+        city: {type: String, required: 'City is required'},
+        zipcode: {type: String, required: 'Zip Code is required'},
+        country: {type: String, required: 'Country is required'}
+      },
     paymentId: {},
     status: {
         type: String,
