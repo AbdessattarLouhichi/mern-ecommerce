@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import ejs from "ejs";
 
-export default function sendEmail (email,subject,options,fileName){  
+export default function sendEmail (email,subject,options,filepath){  
   
     let transporter = nodemailer.createTransport({
         service: "gmail",
@@ -15,13 +15,14 @@ export default function sendEmail (email,subject,options,fileName){
   
     //mail options
     let template;
-    ejs.renderFile(fileName,options,(err ,data)=>{
+    ejs.renderFile(filepath,options,(err ,data)=>{
         if (err) {
             console.log(err)
         }else{
             template = data;
-            }
+        }
     })
+   // console.log(template)
    var  mailOptions = {
         from: process.env.EMAIL,
         to: email,

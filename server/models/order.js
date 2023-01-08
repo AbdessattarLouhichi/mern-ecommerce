@@ -1,29 +1,17 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    customer: {
-        type: mongoose.Types.ObjectId, ref: 'User'
+    cart: {
+        type: mongoose.Types.ObjectId, ref: 'Cart'
     },
-    items: [{
-        productId: {
-            type: String,
-        },
-        name: String,
-        quantity: {
-            type: Number,
-            required: true,
-            min: [1, 'Quantity can not be less then 1.']
-        },
-        price: Number
-    }],
-    cost: {
+    TotalPrice: {
         type: Number,
         required: true
     },
-    transaction_id: {},
+    paymentId: {},
     status: {
         type: String,
-        default: "Not processed",
+        default: "Processing",
         enum: ["Not processed", "Processing", "Shipped", "Delivered", "Cancelled"]
     },
     invoice : {
