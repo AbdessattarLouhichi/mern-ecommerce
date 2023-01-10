@@ -25,13 +25,13 @@ export const getcartById = async (res,req)=>{
 export const addCart = async (req,res)=>{
     try {
         // find customer 
-        const customer = req.user._id;
-        //console.log(customer)
+        const customerId = req.user._id;
+        
         const productId = req.body.productId;
         const quantity = parseInt(req.body.quantity); 
 
         // verify if a cart exists for the customer
-        let cart = await Cart.findOne({customer : customer});
+        let cart = await Cart.findOne({customerId : customerId});
         let product = await Product.findById(productId);
         
         //check if the product is avaible
@@ -72,7 +72,7 @@ export const addCart = async (req,res)=>{
         }else{
             // !cart => Create a new cart and add item to that cart
            const newCart =  await Cart.create({
-                customer,
+                customerId,
                 items : [{productId : productId,name : productName, quantity : quantity, price : productPrice}],
                 cost : quantity*productPrice
             });
@@ -88,7 +88,7 @@ export const addCart = async (req,res)=>{
 export const removeItem = async (req,res)=>{
     try {
         const productId = req.params.id;
-        const cart = await Cart.findOne({customer : req.user._id});
+        const cart = await Cart.findOne({customerId : req.user._id});
         let product = await Product.findById(productId);
         const item = await cart.find(p => p.productId == productId);
         const index = cart.items.indexOf(item);

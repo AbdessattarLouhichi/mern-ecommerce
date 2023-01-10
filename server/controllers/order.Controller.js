@@ -1,30 +1,55 @@
 import Order from "../models/order.js";
 import Cart from "../models/cart.js";
 import Product from "../models/product.js";
+import User from "../models/user.js"
 import easyinvoice from "easyinvoice";
 import path from "path";
 import fs from "fs";
 import Stripe from "stripe";
+import { stripeSecretKey } from "../config/stripe.js";
 import sendEmail from "../common/mail.js";
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
+const stripe = new Stripe(stripeSecretKey);
 
 
 //convert cart to order
 export const checkout = async(req,res)=>{
     try {
         // find cart by customer
-        const customer = req.user._id;
-        const cart = await Cart.findOne({customer : customer});
+        const customerId = req.user._id;
+        const customer = await User.findById(customerId)
+        const cart = await Cart.findOne({customerId : customerId});
         const {deliveryAddress} = req.body;
+        //stripe Token 
+        const stripeToken = await stripe.tokens.create({
+            card :{
+                number : '4242424242424242',
+                exp_month : 8,
+                exp_year : 2025,
+                cvc : '314'
+            }
+        })
 
         if (cart) {
+            const products = cart.items.map((item)=>{
+                return{
+                    "quantity" :item.quantity,
+                    "description": item.name,
+                    "tax-rate": 0,
+                    "price": item.price
+                }
+            })
+            // the accepted amount by Stripe should be in cents 
+            const amount = cart.cost * 100;
+            
+         
             //Accept a payment using Stripe Elements and the Charges API
             const charge = stripe.charges.create({
-                amount: cart.cost,
-                currency: 'TND',
-                source: req.body.stripeToken,
+                amount: amount,
+                currency: 'USD',
+                source: stripeToken.id,
                 description: 'chage test'
             })
+        
             if(!charge){
                 res.status(400).json({message : "Payment failed"})
             }
@@ -74,7 +99,7 @@ export const checkout = async(req,res)=>{
                 },
                 // The products you would like to see on your invoice
                 // Total values are being calculated automatically
-                "products": cart.items,
+                "products": products,
                 // The message you would like to display on the bottom of your invoice
                 //"bottom-notice": "Kindly pay your invoice within 15 days.",
                 // Settings to customize your invoice
@@ -106,18 +131,24 @@ export const checkout = async(req,res)=>{
                     // "total": "Total" // Defaults to 'Total'
                 },
             };
-            
-            const invoice = await easyinvoice.createInvoice(data);
+           const invoice = await  easyinvoice.createInvoice(data, function (result) {
+                //The response will contain a base64 encoded PDF file
+                return result.pdf
+            });
+           
+            //const result = await easyinvoice.createInvoice(data);
+            //easyinvoice.download('myInvoice.pdf', result.pdf);
             const invoicePath = await path.resolve(`./storages/invoices/${customer.firstName}-invoice`)
-            await fs.writeFileSync(invoicePath, invoice,'base64')
+            await fs.writeFileSync(invoicePath, invoice.pdf,'base64')
 
             // sucess payment & create order 
             const order = await Order.create({
-                customer: customer,
+                customerId: customerId,
                 cart: cart,
                 deliveryAddress: deliveryAddress,
-                paymentId: charge.id,
-                invoice : invoice
+                paymentId: (await charge).id,
+                status : "Paid",
+                invoice : invoice.pdf
             });
 
             //update stock
@@ -128,7 +159,7 @@ export const checkout = async(req,res)=>{
             // send order confirmation email
             const attachment = [
                 {
-                    filename :'invoice',
+                    filename :'invoice.pdf',
                     path: invoicePath ,
                     encoding :'base64'
                 }
@@ -162,7 +193,7 @@ export const getAllOrders = async (req,res)=>{
 // get order byID
 export const getOrder = async (req,res)=>{
     try {
-        const order = await Order.findById(req.params.id).populate('customer').populate('cart')
+        const order = await Order.findById(req.params.id).populate('customerId').populate('cart')
         res.status(200).json({order : order})
     } catch (error) {
         res.status(500).json({message : error.message})

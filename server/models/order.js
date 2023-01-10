@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    customer: {
+    customerId: {
         type: mongoose.Types.ObjectId, ref:'User'
     },
     cart: {
@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "Processing",
-        enum: ["Not processed", "Processing", "Shipped", "Delivered", "Cancelled"]
+        enum: ["Not processed", "Processing","Paid", "Shipped", "Delivered", "Cancelled"]
     },
     invoice : {
         type: String

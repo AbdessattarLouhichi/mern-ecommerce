@@ -6,6 +6,7 @@ import crypto from "crypto";
 import sendEmail from "../common/mail.js";
 
 
+
 // Register new user
 const register = async (req,res)=>{
     try {
@@ -80,7 +81,7 @@ const login = async (req,res)=>{
                     userId : user._id,
                     userEmail:user.email
                 }
-                const token = jwt.sign(data,process.env.SECRET_KEY, {expiresIn : '1h'});
+                const token = jwt.sign(data,process.env.SECRET_KEY, {expiresIn : '2h'});
 
                 return res.status(200).json({token, message : "successfully logged in"});
             } else {
