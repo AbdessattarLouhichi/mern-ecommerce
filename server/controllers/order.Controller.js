@@ -8,6 +8,8 @@ import Stripe from "stripe";
 import sendEmail from "../common/mail.js";
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
+
+//convert cart to order
 export const checkout = async(req,res)=>{
     try {
         // find cart by customer
@@ -141,6 +143,37 @@ export const checkout = async(req,res)=>{
             res.status(404).json({message : "cart is empty"})
         }
       
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
+
+// get All Orders
+export const getAllOrders = async (req,res)=>{
+    try {
+        const orders = await Order.find();
+        res.status(200).json({orders: orders});
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
+// get order byID
+export const getOrder = async (req,res)=>{
+    try {
+        const order = await Order.findById(req.params.id).populate('customer').populate('cart')
+        res.status(200).json({order : order})
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
+// delete Order 
+export const RemoveOrder = async (req,res)=>{
+    try {
+          await  Order.findByIdAndDelete(req.params.id);
+          res.status(204).json({message : "Order deleted!"})
     } catch (error) {
         res.status(500).json({message : error.message})
     }
