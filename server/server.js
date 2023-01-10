@@ -11,6 +11,7 @@ import userRoutes from "./routes/userApi.js";
 import productRoutes from "./routes/productApi.js";
 import categoryRoutes from "./routes/categoryApi.js";
 import cartRoutes from "./routes/cartApi.js";
+import oderRoutes from "./routes/orderApi.js"
 import session from "express-session";
 import passport from "passport";
 import  "./config/bearer.js"
@@ -35,6 +36,7 @@ app.use('/api', userRoutes)
 app.use('/api', productRoutes)
 app.use('/api', categoryRoutes)
 app.use('/api', cartRoutes)
+app.use('/api',oderRoutes)
 
 
 

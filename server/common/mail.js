@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import ejs from "ejs";
 
-export default function sendEmail (email,subject,options,filepath){  
+export default function sendEmail (email,subject,options,filepath,attachment){  
   
     let transporter = nodemailer.createTransport({
         service: "gmail",
@@ -27,7 +27,8 @@ export default function sendEmail (email,subject,options,filepath){
         from: process.env.EMAIL,
         to: email,
         subject: subject,
-        html : template
+        html : template,
+        attachments : attachment
     }
  //send mail with defined transport object
     transporter.sendMail(mailOptions, (err,info)=> {

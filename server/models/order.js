@@ -1,14 +1,13 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
+    customer: {
+        type: mongoose.Types.ObjectId, ref:'User'
+    },
     cart: {
         type: mongoose.Types.ObjectId, ref: 'Cart'
     },
-    TotalPrice: {
-        type: Number,
-        required: true
-    },
-    shippingAddress: {
+    deliveryAddress: {
         street: {type: String, required: 'Street is required'},
         city: {type: String, required: 'City is required'},
         zipcode: {type: String, required: 'Zip Code is required'},
