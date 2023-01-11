@@ -6,7 +6,7 @@ import easyinvoice from "easyinvoice";
 import path from "path";
 import fs from "fs";
 import Stripe from "stripe";
-import { stripeSecretKey } from "../config/stripe.js";
+import { stripeSecretKey } from "../config/config.js";
 import sendEmail from "../common/mail.js";
 const stripe = new Stripe(stripeSecretKey);
 
@@ -167,6 +167,9 @@ export const checkout = async(req,res)=>{
 
             await sendEmail(customer.email,"Order confirmation",{name : customer.firstName},"./templates/orderConfirmation.ejs",attachment)
 
+            if(order.status == "Paid"){
+                await Cart.findByIdAndDelete({_id : cart._id})
+            }
             // order success status
             res.status(200).json({message : "Your order has been placed successfully!", order : order})
             

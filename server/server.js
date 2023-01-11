@@ -15,6 +15,7 @@ import oderRoutes from "./routes/orderApi.js"
 import session from "express-session";
 import passport from "passport";
 import  "./config/bearer.js"
+import { sessionSecret } from "./config/config.js";
 
 //Configuration and Middlewares
 dotenv.config();
@@ -24,10 +25,10 @@ app.use(morgan('dev'));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(session({
-    secret: '*$#a727e823e58489bbea04@~~#',
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge : 3600000}
+    cookie: { maxAge : 1000*60*60*2}
   }))
 
 // Initialize Routes

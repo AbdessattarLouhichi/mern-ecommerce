@@ -2,3 +2,4 @@
 import dotenv from "dotenv";
 dotenv.config();
 export const stripeSecretKey = process.env.STRIPE_PRIVATE_KEY
+export const sessionSecret = process.env.SESSION_SECRET
