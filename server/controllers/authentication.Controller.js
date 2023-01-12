@@ -24,7 +24,11 @@ const register = async (req,res)=>{
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         req.body.password = hashedPassword;
-
+        if(req.file){
+            const fileName = req.file.filename;
+            const photoPath = `http://localhost:3000/storages/uploads/${fileName}`;
+            req.body.photo = photoPath;
+        }
         // save user 
         const newUser = await User.create(req.body);
         const Activation_key = crypto.randomBytes(10).toString("hex");

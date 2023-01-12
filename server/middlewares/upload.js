@@ -8,7 +8,7 @@ var storage = multer.diskStorage({
      },
     filename: function (req, file, cb) {
       const fileName = file.originalname.split(' ').join('-')
-        cb(null ,fileName+'-'+Date.now());
+        cb(null ,Date.now() +'-'+ fileName);
     }
 });
 const extensionList = [

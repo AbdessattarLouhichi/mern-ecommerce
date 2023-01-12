@@ -34,9 +34,14 @@ export const getUser = async (req,res)=>{
 // update user
 export const updateUser = async (req,res)=>{
     try {
+        if(req.file){
+            const fileName = req.file.filename;
+            const photoPath = `http://localhost:3000/storages/uploads/${fileName}`;
+            req.body.photo = photoPath;
+        }
          await User.findByIdAndUpdate(req.params.id, req.body);
         const user = await User.findOne({_id : req.params.id})
-        res.status(200).json({message : "Successfully updated!"})
+        res.status(200).json({message : "Successfully updated!", user : user})
     } catch (error) {
         res.status(500).json({message : 'Server Error!'})
     }
