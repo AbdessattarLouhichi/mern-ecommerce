@@ -17,6 +17,9 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please Enter Product Description']
     },
+    image : {
+        type : String
+    },
     images: [
         {type : String}
     ],
