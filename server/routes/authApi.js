@@ -9,6 +9,6 @@ router.get('/account-activation/:activationCode',accountActivation);
 router.post('/login',login);
 router.get('/logout',passport.authenticate('bearer', {session : false}),logout);
 router.post('/forgot-password',forgotPassword);
-router.post('/password-reset/:userId/:token',resetPassword);
+router.post('/reset-password/:userId/:token',resetPassword);
 
 export default router

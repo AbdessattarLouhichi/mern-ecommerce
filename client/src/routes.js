@@ -1,8 +1,13 @@
 import React from 'react'
+import AddProduct from './views/admin/product/addProduct/AddProduct'
 
-const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const Dashboard = React.lazy(() => import('./views/admin/dashboard/Dashboard'))
+const ViewProducts = React.lazy(() => import('./views/admin/product/viewProducts/ViewProducts'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+const Home = React.lazy(() => import('./views/pages/home/Home'))
+const Login = React.lazy(() => import('./views/pages/auth/login/Login'))
+const Page404 = React.lazy(() => import('./views/pages/otherPages/page404/Page404'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -51,8 +56,12 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  { path: '/login', exact: true, name: 'Login', element: Login },
+  { path: '/home', exact: true, name: 'Home', element: Home },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },
+  { path: '/createProduct', name: 'AddProduct', element: AddProduct },
+  { path: '*', name: 'Page404', element: Page404 },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
