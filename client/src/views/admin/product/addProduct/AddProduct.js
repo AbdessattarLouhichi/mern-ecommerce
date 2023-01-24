@@ -1,6 +1,7 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { createProduct } from 'src/store/api/productApi'
+import { getAllCategories } from 'src/store/api/categoryApi'
 import { useNavigate } from 'react-router-dom'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -8,12 +9,19 @@ import * as Yup from 'yup'
 function AddProduct() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  useEffect(() => {
+    dispatch(getAllCategories())
+  }, [dispatch])
 
-  const categories = ["cat1","cat2","cat3"]
-  //const categories = useSelector((state) => state.category.categories)
+  const categories = useSelector((state) => state.category.categories)
   const addProduct = (values) => {
     dispatch(createProduct(values))
-    navigate('/viewProducts')
+    navigate('/admin/viewProducts')
+  }
+  const handleFileUpload = async (e,setFieldValue)=>{
+    const file = e.target.files[0];
+    console.log(file)
+    setFieldValue('image', file)
   }
   const initialValues = {
     name: '',
@@ -45,7 +53,7 @@ function AddProduct() {
             >
               {(formik) => {
                 return (
-                  <Form>
+                  <Form encType="multipart/form-data">
                     {/* Product Name input type text*/}
                     <div className="form-group">
                       <label htmlFor="name" className="font-weight-bold">
@@ -92,11 +100,29 @@ function AddProduct() {
                       <label htmlFor="category" className="font-weight-bold">Category</label>
                       <Field as="select" name="category" id="category" >
                         {
-                          categories.map((item,index)=>
-                          <option key={index} >{item}</option>
+                          categories.map((item)=>
+                          <option key={item._id} >{item.name}</option>
                           )
                         }
                       </Field>
+                    </div>
+                    <div className="form-group my-4">
+                        <label htmlFor="image" className="font-weight-bold">Add Photo</label>
+                        <Field name="image" encType="multipart/form-data">
+                        {({ form, field }) => {
+                          console.log(field)
+                          console.log(form)
+                          const { setFieldValue } = form
+                          return (
+                            <input
+                              type="file"
+                              className='form-control-file'
+                              required
+                              onChange={(e) => handleFileUpload(e, setFieldValue)}
+                            />
+                          )
+                        }}
+                        </Field>
                     </div>
                   
                     {/*Click button  to add product*/}

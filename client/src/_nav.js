@@ -50,7 +50,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Category List',
-        to: '/admin/categories',
+        to: '/admin/viewCategories',
       },
       {
         component: CNavItem,

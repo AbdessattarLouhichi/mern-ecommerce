@@ -1,15 +1,19 @@
 import React from 'react'
-import AddProduct from './views/admin/product/addProduct/AddProduct'
 
 const Dashboard = React.lazy(() => import('./views/admin/dashboard/Dashboard'))
-const ViewProducts = React.lazy(() => import('./views/admin/product/viewProducts/ViewProducts'))
-const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
-const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+const AddProduct = React.lazy(()=> import('./views/admin/product/addProduct/AddProduct'))
+const UpdateProduct = React.lazy(()=> import('./views/admin/product/updateProduct/UpdateProduct'))
+const ViewProducts = React.lazy(()=> import('./views/admin/product/viewProducts/ViewProducts'))
+const AddCategory = React.lazy(() => import ('./views/admin/categories/addCategory/AddCategory'))
+const ViewCategories = React.lazy(() => import('./views/admin/categories/viewCategories/ViewCategories'))
+const UpdateCategory = React.lazy(()=> import('./views/admin/categories/updateCategory/UpdateCategory'))
 const Home = React.lazy(() => import('./views/pages/home/Home'))
 const Login = React.lazy(() => import('./views/pages/auth/login/Login'))
 const Page404 = React.lazy(() => import('./views/pages/otherPages/page404/Page404'))
 
 // Base
+const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
+const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'))
 const Cards = React.lazy(() => import('./views/base/cards/Cards'))
@@ -61,6 +65,10 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },
   { path: '/createProduct', name: 'AddProduct', element: AddProduct },
+  { path: '/updateProduct/:id', name: 'UpdateProduct', element: UpdateProduct },
+  { path: '/viewCategories', name: 'ViewCategories', element: ViewCategories },
+  { path: '/createCategory', name: 'AddCategory', element: AddCategory },
+  { path: '/updateCategory/:id', name: 'UpdateCategory', element: UpdateCategory },
   { path: '*', name: 'Page404', element: Page404 },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },

@@ -14,7 +14,7 @@ export const createCategory = async (req,res)=>{
 export const getcategories = async (req,res)=>{
     try {
         const categories = await Category.find();
-        res.status(200).json({data : categories})
+        res.status(200).json(categories)
     } catch (error) {
         res.status(500).json({message : 'Server Error!'})
     }
@@ -25,7 +25,7 @@ export const getcategories = async (req,res)=>{
 export const getCategory = async (req,res)=>{
     try {
         const category = await Product.findById(req.params.id);
-        res.status(200).json({data : category})
+        res.status(200).json(category)
     } catch (error) {
         res.status(500).json({message : 'Server Error!'})
     }

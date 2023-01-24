@@ -5,6 +5,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import path from 'path'
+import { fileURLToPath } from 'url';
 import db from './config/connect.js';
 import authRoutes from "./routes/authApi.js";
 import userRoutes from "./routes/userApi.js";
@@ -22,7 +24,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(morgan('dev'));
-app.use(helmet());
+app.use(helmet({crossOriginResourcePolicy: false}));
 app.use(bodyParser.json());
 app.use(session({
     secret: sessionSecret,
@@ -30,7 +32,10 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge : 1000*60*60*2}
   }))
-
+app.use(express.json())
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '/storages/uploads')));
 // Initialize Routes
 app.use('/api', authRoutes)
 app.use('/api', userRoutes)

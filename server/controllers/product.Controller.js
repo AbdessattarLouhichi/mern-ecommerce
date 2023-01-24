@@ -44,7 +44,7 @@ export const updateProduct = async (req,res)=>{
             const filePath =  `http://localhost:3000/storages/uploads/${fileName}`;
             req.body.image = filePath;
         }
-         await Product.findByIdAndUpdate(req.params.id, req.body);
+        await Product.findByIdAndUpdate(req.params.id, req.body)
         const product = await Product.findOne({_id : req.params.id})
         res.status(200).json({message : "Successfully updated!", data : product})
     } catch (error) {

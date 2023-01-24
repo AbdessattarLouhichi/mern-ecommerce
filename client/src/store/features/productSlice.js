@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createProduct, getProduct, getAllProducts, updateProduct, deleteProduct  } from '../api/productApi'
-//import Toasts from 'src/views/notifications/toasts/Toasts'
 
 const initialState = {
     loading: false,
     products: [],
+    success: false,
     error: '',
 }
 
@@ -60,7 +60,7 @@ const productSlice = createSlice({
         })
         builder.addCase(updateProduct.fulfilled, (state, action) => {
             state.loading = false
-            state.products = action.payload
+            state.success = true
             state.error = ''
         })
         builder.addCase(updateProduct.rejected, (state, action) => {
@@ -74,7 +74,7 @@ const productSlice = createSlice({
         })
         builder.addCase(deleteProduct.fulfilled, (state, action) => {
             state.loading = false
-            state.products = action.payload
+            state.success = true
             state.error = ''
         })
         builder.addCase(deleteProduct.rejected, (state, action) => {

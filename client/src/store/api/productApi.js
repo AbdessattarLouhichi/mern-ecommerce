@@ -29,9 +29,11 @@ export const createProduct = createAsyncThunk('product/createProdcut', async (va
   }
 })
 // Update Product
-export const updateProduct = createAsyncThunk('product/updateProduct', async (id, updates) => {
+export const updateProduct = createAsyncThunk('product/updateProduct', async (id, data) => {
   try {
-    const response = await axios.put('/products/' + id, updates)
+    console.log(id)
+    console.log(data)
+    const response = await axios.put('/products/' + id, data)
     return response.data
   } catch (error) {
     console.log(error.message)
@@ -40,8 +42,11 @@ export const updateProduct = createAsyncThunk('product/updateProduct', async (id
 // Delete Product
 export const deleteProduct = createAsyncThunk('product/deleteProduct', async (id) => {
   try {
-    const response = await axios.delete('/products/' + id)
-    return response.data
+    if (window.confirm('Do you want to remove?')){
+      await axios.delete('/products/' + id)
+      window.location.reload()
+    }
+   
   } catch (error) {
     console.log(error.message)
   }
