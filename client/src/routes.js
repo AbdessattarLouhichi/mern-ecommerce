@@ -8,7 +8,11 @@ const AddCategory = React.lazy(() => import ('./views/admin/categories/addCatego
 const ViewCategories = React.lazy(() => import('./views/admin/categories/viewCategories/ViewCategories'))
 const UpdateCategory = React.lazy(()=> import('./views/admin/categories/updateCategory/UpdateCategory'))
 const Home = React.lazy(() => import('./views/pages/home/Home'))
+const Register = React.lazy(() => import('./views/pages/auth/register/Register'))
 const Login = React.lazy(() => import('./views/pages/auth/login/Login'))
+const Activation = React.lazy(() => import('./views/pages/auth/register/AccountActivation'))
+const ForgotPassword = React.lazy(() => import ('./views/pages/auth/forgotPassword/ForgotPassword'))
+const ResetPassword = React.lazy(() => import ('./views/pages/auth/resetPassword/ResetPassword'))
 const Page404 = React.lazy(() => import('./views/pages/otherPages/page404/Page404'))
 
 // Base
@@ -60,7 +64,11 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
+  { path: '/register', exact: true, name: 'Register', element: Register },
   { path: '/login', exact: true, name: 'Login', element: Login },
+  { path: '/accountActivation/:code', exact: true, name: 'AccountActivation', element: Activation },
+  { path: '/forgotPassword', exact: true, name: 'ForgotPassword', element: ForgotPassword },
+  { path: '/resetPassword/:token', exact: true, name: 'ResetPassword', element: ResetPassword },
   { path: '/home', exact: true, name: 'Home', element: Home },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },

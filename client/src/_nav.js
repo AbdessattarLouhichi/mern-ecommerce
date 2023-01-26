@@ -86,7 +86,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Order Detail',
-        to: '/orders/order-detail',
+        to: '/orders/orderDetail',
       },
       {
         component: CNavItem,
@@ -116,7 +116,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Customer Detail',
-        to: '/admin/customers/customer-detail/:id',
+        to: '/admin/customers/customerDetail/:id',
       },
     ],
   },
@@ -160,12 +160,12 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Fogot Password',
-        to: '/forgot-password',
+        to: '/forgotPassword',
       },
       {
         component: CNavItem,
         name: 'Reset password',
-        to: '/reset-password',
+        to: '/resetPassword/:token',
       },
     ],
   },

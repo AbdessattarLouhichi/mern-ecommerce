@@ -5,10 +5,10 @@ import upload from "../middlewares/upload.js";
 
 const router = express.Router();
 router.post('/register',upload.single('photo'), register);
-router.get('/account-activation/:activationCode',accountActivation);
+router.get('/accountActivation/:activationCode',accountActivation);
 router.post('/login',login);
 router.get('/logout',passport.authenticate('bearer', {session : false}),logout);
-router.post('/forgot-password',forgotPassword);
-router.post('/reset-password/:userId/:token',resetPassword);
+router.post('/forgotPassword',forgotPassword);
+router.post('/resetPassword/:token',resetPassword);
 
 export default router

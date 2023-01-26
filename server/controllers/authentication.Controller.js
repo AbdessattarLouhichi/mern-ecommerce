@@ -4,6 +4,7 @@ import  bcrypt from "bcryptjs";
 import jwt  from "jsonwebtoken";
 import crypto from "crypto";
 import sendEmail from "../common/mail.js";
+import { BaseURL, clientURL } from "../config/config.js";
 
 
 
@@ -26,7 +27,7 @@ const register = async (req,res)=>{
         req.body.password = hashedPassword;
         if(req.file){
             const fileName = req.file.filename;
-            const photoPath = `http://localhost:3000/storages/uploads/${fileName}`;
+            const photoPath = `${BaseURL}/storages/uploads/${fileName}`;
             req.body.photo = photoPath;
         }
         // save user 
@@ -39,7 +40,7 @@ const register = async (req,res)=>{
         await User.updateOne({_id : newUser._id}, {$set :{token : token}}, {new : true});
      
         // send email
-      const link = `${process.env.BASE_URL}/account-activation/${token}`;
+      const link = `${clientURL}/accountActivation/${token}`;
       console.log(link)
       await sendEmail(email,"Sign up confirmation",{name : firstName ,link : link},"./templates/registrationConfirmation.ejs")
         res.status(201).json({message :  `Email has been sent to ${email}. Follow the instruction to activate your account`})
@@ -58,7 +59,7 @@ const accountActivation = async (req,res)=>{
         if(!user){
             res.status(400).json({message : "Your verification link has expired"})
         }
-        await User.updateOne({_id : user._id} , {$set : {confirmed : true}},{new : true});
+        await User.updateOne({_id : user._id} , {$set : {confirmed : true, token : ''}},{new : true});
         res.status(200).json({message : 'activation success!'})
     } catch (error) {
         res.status(500).json({message : 'Server Error'})
@@ -122,19 +123,22 @@ const forgotPassword = async(req,res)=>{
         console.log(email)
         // check if user exists
         const user = await User.findOne({email});
-        console.log(user)
         if(!user){
             return res.status(400).json({message : "user with given email doesn't exist"})
         }
+        await Token.findOneAndRemove({userId : user._id })
         const JWT_SECRET = crypto.randomBytes(32).toString("hex");
         const data={
             userId : user._id,
             userEmail:user.email
         }
-
         // generate reset link
-        const token = jwt.sign(data, JWT_SECRET, {expiresIn : "10m"});
-        const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token}`;
+        const resetToken = jwt.sign(data, JWT_SECRET, {expiresIn : "10m"});
+        await Token.create({
+            userId : user._id ,
+            token : resetToken
+        })
+        const link = `${clientURL}/resetPassword/${resetToken}`;
         await sendEmail(email,"Reset Password",{name : user.firstName ,link : link},"./templates/resetPassword.ejs")
         res.status(200).json({message : `Password reset link has been sent to ${email}`});
     } catch (error) {
@@ -146,22 +150,19 @@ const forgotPassword = async(req,res)=>{
 // Reset Password
 const resetPassword = async(req,res)=>{
     try {
-        const {id, resetToken} = req.params;
-        const {newPassword} = req.body.password;
-        const user = await User.findById(id);
-        const token = await Token.findOne({
-            userId : user.id,
-            token : resetToken
-        })
-       if(!token){
+        const {token} = req.params
+        const {password} = req.body
+    
+        const resetToken = await Token.findOne({ token : token})
+        const user = await User.findById(resetToken.userId)
+       if(!resetToken){
         return res.status(400).json({message : 'invalid link or expired'})
        }
-
         // hashing the newPassword
         const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(newPassword, salt);
-        await User.updateOne({_id : id},{$set : {password : hash}},{new : true});
-        await token.delete();
+        const hashedPassword = await bcrypt.hash(password, salt);
+        await User.updateOne({_id : user._id},{$set : {password : hashedPassword}},{new : true});
+        await resetToken.delete();
         await sendEmail(user.email,"Change Password confirmation",{name :user.firstName},"./templates/confirmResetPassword.ejs")
         res.status(200).json({message : "Password changed successfully. Please login with your new password"});
         

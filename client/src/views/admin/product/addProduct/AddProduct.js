@@ -117,7 +117,6 @@ function AddProduct() {
                             <input
                               type="file"
                               className='form-control-file'
-                              required
                               onChange={(e) => handleFileUpload(e, setFieldValue)}
                             />
                           )
