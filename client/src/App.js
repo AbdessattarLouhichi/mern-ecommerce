@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import './scss/style.scss'
 import ClientLayout from './layout/ClientLayout'
+import Profile from './views/pages/profile/Profile'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -26,11 +27,13 @@ class App extends Component {
         <Suspense fallback={loading}>
           <Routes>
             <Route path="/admin/*" element={<AdminLayout />}></Route>
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
             <Route element={<ClientLayout />}>
               <Route path="/" element={<Navigate to="/home" replace />} />
               <Route exact path="/home" name="Home Page" element={<Home />} />
               <Route exact path="/login" name="Login Page" element={<Login />} />
               <Route exact path="/register" name="Register Page" element={<Register />} />
+              <Route exact path="/profile" name="Profile Page" element={<Profile />} />
               <Route exact path="*" name="Page 404" element={<Page404 />} />
               <Route exact path="/500" name="Page 500" element={<Page500 />} />
             </Route>

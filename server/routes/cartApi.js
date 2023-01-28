@@ -6,7 +6,7 @@ import { addCart, deleteCart, getcartById, getCarts, removeItem, UpdateCart } fr
 const router = express.Router();
 
 router.post('/cart/addItem',passport.authenticate('bearer', {session : false}), addCart);
-router.get('/carts', passport.authenticate('bearer', {session : false}),authRole("admin","superAdmin") ,getCarts);
+router.get('/carts', passport.authenticate('bearer', {session : false}),authRole(["admin","superAdmin"]) ,getCarts);
 router.get('/carts/:id',passport.authenticate('bearer', {session : false}),getcartById);
 router.put('/carts/:id',passport.authenticate('bearer', {session : false}),UpdateCart);
 router.delete('/carts/:id',passport.authenticate('bearer', {session : false}), deleteCart);

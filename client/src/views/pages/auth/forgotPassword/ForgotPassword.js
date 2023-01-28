@@ -1,22 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {Formik,Form,Field,ErrorMessage} from 'formik'
 import * as Yup from 'yup'
 import { forgotPassword } from 'src/store/api/authApi'
 import { useDispatch } from 'react-redux'
+import 'react-toastify/dist/ReactToastify.css'
+import { toast, ToastContainer } from 'react-toastify'
 //import { toast } from 'react-toastify'
 
 
 const ForgotPassword = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [warning, setWarning] = useState(false)
   
 
-  const handleEmail =  (values)=>{
-    console.log(values)
-    dispatch(forgotPassword (values))
-    navigate('/login')
+  const handleEmail = async  (values)=>{
+      await dispatch(forgotPassword (values))
+      .then((response) =>{ 
+        warning && setWarning(false)
+        //SUCCESS LOGIN MESSAGE!  You are successfully logged in
+        toast.success(response.payload, {
+          position: "top-center",
+        })
+        setTimeout(()=>{
+          navigate('/login')
+        },3000)
+      })
+      .catch(()=>{
+        setWarning(true)
+      }) 
+    
+    
   }
+  const warningMsg = warning && <div className='alert alert-danger mt-5'>Please check your email and try again !</div>
 
    const initialValues ={
     email:''
@@ -30,12 +47,14 @@ const ForgotPassword = () => {
 
   return (
     <div className="bg-light  d-flex flex-row justify-content-center align-items-center">
+      <ToastContainer />
             <div className="col-12 col-md-8 col-lg-6 col-xl-5 my-3">
               <div  className="card bg-white" style={{borderRadius: "1rem"}}>
                 <div className="card-body p-3">
                   <div className='mb-md-5 mt-md-4 pb-3'>
                     <h2 className='text-center text-uppercase mb-3'>Forgot Password</h2>
                     <p className="mb-3 text-center">Please enter your email!</p>
+                      {warningMsg}
                     <Formik
                         initialValues={initialValues}
                         validationSchema ={validationSchema}

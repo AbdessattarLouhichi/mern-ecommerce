@@ -29,11 +29,9 @@ export const createProduct = createAsyncThunk('product/createProdcut', async (va
   }
 })
 // Update Product
-export const updateProduct = createAsyncThunk('product/updateProduct', async (id, data) => {
+export const updateProduct = createAsyncThunk('product/updateProduct', async (values) => {
   try {
-    console.log(id)
-    console.log(data)
-    const response = await axios.put('/products/' + id, data)
+    const response = await axios.put('/products/' + values.id, values.data)
     return response.data
   } catch (error) {
     console.log(error.message)

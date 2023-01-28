@@ -88,7 +88,7 @@ const login = async (req,res)=>{
                 }
                 const token = jwt.sign(data,process.env.SECRET_KEY, {expiresIn : '2h'});
 
-                return res.status(200).json({token, message : "successfully logged in"});
+                return res.status(200).json({id: user._id, token: token, message : "successfully logged in"});
             } else {
                 return res.status(400).json({message : "your account is not activated. please check your email for activation instructions"});
             }

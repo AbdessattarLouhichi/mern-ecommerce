@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { act } from 'react-dom/test-utils'
 import { register, accountActivation, login, logout, forgotPassword, resetPassword} from '../api/authApi'
 
 const initialState =  {
@@ -8,7 +7,7 @@ const initialState =  {
     userToken: null, // for storing the JWT
     error: null,
     success: false, // for monitoring the registration process.
-  }
+}
 
 
 const authSlice = createSlice({
@@ -60,8 +59,8 @@ const authSlice = createSlice({
 
         builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false
-            state.userInfo = action.payload
-            state.userToken = action.meta.token
+            state.userInfo = action.payload.id
+            state.userToken = action.payload.token
             state.success = true
             state.error = ''
         })

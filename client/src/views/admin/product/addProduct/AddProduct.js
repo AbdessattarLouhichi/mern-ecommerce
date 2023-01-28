@@ -110,8 +110,6 @@ function AddProduct() {
                         <label htmlFor="image" className="font-weight-bold">Add Photo</label>
                         <Field name="image" encType="multipart/form-data">
                         {({ form, field }) => {
-                          console.log(field)
-                          console.log(form)
                           const { setFieldValue } = form
                           return (
                             <input

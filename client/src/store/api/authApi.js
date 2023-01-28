@@ -28,7 +28,8 @@ export const login = createAsyncThunk('auth/login', async (values) => {
   try {
     const response = await axios.post('/login', values)
     localStorage.setItem('token', response.data.token)
-    return response.data.message
+    localStorage.setItem('id', response.data.id)
+    return response.data
   } catch (error) {
     console.log(error.message)
   }
@@ -49,12 +50,12 @@ export const forgotPassword = createAsyncThunk('auth/forgotPassword', async (ema
     const response = await axios.post('/forgotPassword', email)
      return response.data.message
   } catch (error) {
-    alert(error.message)
+    console.log(error.response.data.message)
   }
 })
 
 // Reset Password
-export const resetPassword = createAsyncThunk('auth/resetPassword', async ( data) => {
+export const resetPassword = createAsyncThunk('auth/resetPassword', async (data) => {
   try {
     const response = await axios.post(`/resetPassword/${data.token}`, data.values)
      return response.data.message

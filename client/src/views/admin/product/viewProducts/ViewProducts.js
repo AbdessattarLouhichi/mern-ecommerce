@@ -12,8 +12,11 @@ function ViewProducts() {
   const [filterProducts, setFilterProducts] = useState([])
   // usedipatch to dispatch action productSlice
   const dispatch = useDispatch()
-  const products = useSelector((state) => state.product.products)
-  console.log(products)
+  // dispatch action
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [dispatch])
+  
   //react-data-table columns
   const columns = [
     {
@@ -53,10 +56,8 @@ function ViewProducts() {
       ),
     },
   ]
-  // dispatch action
-  useEffect(() => {
-    dispatch(getAllProducts())
-  }, [dispatch])
+  
+  const products = useSelector((state) => state.product.products)
   useEffect(() => {
     const result = products.filter((product) => {
       return product.name.toLowerCase().match(search.toLowerCase())
