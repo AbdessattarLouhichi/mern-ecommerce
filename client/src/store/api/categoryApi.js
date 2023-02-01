@@ -4,7 +4,7 @@ import axios from '../../config/config'
 // Get one category
 export const getCategory = createAsyncThunk('category/getCategory', async (id) => {
   try {
-    const response = await axios.get('/categories/' + id)
+    const response = await axios.get(`/categories/${id}`)
     return response.data
   } catch (error) {
     console.log(error.message)
@@ -22,7 +22,6 @@ export const getAllCategories = createAsyncThunk('category/getAllCategories', as
 // Add new category
 export const createCategory = createAsyncThunk('category/createCategory', async (newCategory) => {
   try {
-    console.log(newCategory)
     const response =  await axios.post('/createCategory', newCategory)
     return response.data
   } catch (error) {
@@ -30,11 +29,9 @@ export const createCategory = createAsyncThunk('category/createCategory', async 
   }
 })
 // Update category
-export const updateCategory = createAsyncThunk('category/updateCategory', async (id, data) => {
+export const updateCategory = createAsyncThunk('category/updateCategory', async (cat) => {
   try {
-    console.log(id)
-    console.log(data)
-    const response = await axios.put('/categories/' + id, data)
+    const response = await axios.put('/categories/' + cat.id, cat.data)
     return response.data
   } catch (error) {
     console.log(error.message)

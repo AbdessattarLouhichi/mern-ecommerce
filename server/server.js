@@ -25,6 +25,7 @@ const app = express();
 app.use(cors());
 app.use(morgan('dev'));
 app.use(helmet({crossOriginResourcePolicy: false}));
+app.disable('etag');
 app.use(bodyParser.json());
 app.use(session({
     secret: sessionSecret,

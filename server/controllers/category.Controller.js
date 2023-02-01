@@ -24,8 +24,8 @@ export const getcategories = async (req,res)=>{
 //find one product by Id
 export const getCategory = async (req,res)=>{
     try {
-        const category = await Product.findById(req.params.id);
-        res.status(200).json(category)
+        const category = await Category.findById(req.params.id);
+        res.status(200).json({data: category})
     } catch (error) {
         res.status(500).json({message : 'Server Error!'})
     }

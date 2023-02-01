@@ -30,9 +30,9 @@ export const getAllCustomers = createAsyncThunk('user/getAllCustomers', async ()
     }
   })
   // Update user
-export const updateUser = createAsyncThunk('user/updateUser', async (id) => {
+export const updateUser = createAsyncThunk('user/updateUser', async (values) => {
   try {
-    const response = await axios.put('/users/' + id)
+    const response = await axios.put('/users/' + values.id, values.data)
     return response.data
   } catch (error) {
     console.log(error.message)
@@ -41,8 +41,10 @@ export const updateUser = createAsyncThunk('user/updateUser', async (id) => {
 //Delete User
 export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
   try {
-    const response = await axios.delete('/users/' + id)
-    return response.data
+    if (window.confirm('Do you want to remove?')){
+      await axios.delete('/users/' + id)
+      window.location.reload()
+    }
   } catch (error) {
     console.log(error.message)
   }

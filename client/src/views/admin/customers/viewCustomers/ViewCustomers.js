@@ -2,54 +2,49 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import DataTable from 'react-data-table-component'
-import { getAllProducts, deleteProduct } from 'src/store/api/productApi'
+import { getAllCustomers, deleteUser } from 'src/store/api/userApi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-function ViewProducts() {
-  // useState hook to filter and search products
+function ViewUsers() {
+  // useState hook to filter and search users
   const [search, setSearch] = useState('')
-  const [filterProducts, setFilterProducts] = useState([])
-  // usedipatch to dispatch action productSlice
-  const dispatch = useDispatch()
+  const [filterUsers, setFilterUsers] = useState([])
   // dispatch action
+  const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getAllProducts())
+    dispatch(getAllCustomers())
   }, [dispatch])
   
+  const users = useSelector((state) => state.user.users)
+  console.log(users)
   //react-data-table columns
   const columns = [
     {
       name: 'Image',
-      selector: (row) => <img alt="Product" width={50} height={50} src={row.image} />,
+      selector: (row) => <img alt="User" width={50} height={50} src={row.photo} />,
     },
     {
-      name: 'Product Name',
-      selector: (row) => row.name,
+      name: 'Name',
+      selector: (row) => row.firstName,
       sortable: true,
     },
     {
-      name: 'Categories',
-      selector: (row) => row.category,
-      sortable: true,
+      name: 'Email',
+      selector: (row) => row.email,
     },
     {
-      name: 'Price',
-      selector: (row) => row.price,
-      sortable: true,
-    },
-    {
-      name: 'Stock',
-      selector: (row) => row.stock,
+      name: 'Phone Number',
+      selector: (row) => row.phoneNumber,
     },
     {
       name: 'Action',
       cell: (row) => (
         <div className="d-flex text-center">
-          <Link to={'/admin/updateProduct/' + row._id} className="btn btn-success btn-sm me-2">
+          <Link to={'/admin/updateUser/' + row._id} className="btn btn-success btn-sm me-2">
             <FontAwesomeIcon icon={faPencil} className="text-white" />
           </Link>
-          <button className="btn btn-danger btn-sm" onClick={() => dispatch(deleteProduct(row._id))}>
+          <button className="btn btn-danger btn-sm" onClick={() => dispatch(deleteUser(row._id))}>
             <FontAwesomeIcon icon={faTrash} className="text-white" />
           </button>
         </div>
@@ -57,20 +52,21 @@ function ViewProducts() {
     },
   ]
   
-  const products = useSelector((state) => state.product.products)
   useEffect(() => {
     setTimeout(()=>{
-      const result = products.filter((product) => {
-        return product.name.toLowerCase().match(search.toLowerCase())
+      const result = users.filter((user) => {
+        return user.firstName.toLowerCase().match(search.toLowerCase())
       })
-      setFilterProducts(result)
+      setFilterUsers(result)
     },500)
-  }, [products, search])
+   
+  }, [users, search])
+
   return (
     <DataTable
-      title="Product List"
+      title="User List"
       columns={columns}
-      data={filterProducts}
+      data={filterUsers}
       pagination
       fixedHeader
       selectableRows
@@ -90,4 +86,4 @@ function ViewProducts() {
     />
   )
 }
-export default ViewProducts
+export default ViewUsers

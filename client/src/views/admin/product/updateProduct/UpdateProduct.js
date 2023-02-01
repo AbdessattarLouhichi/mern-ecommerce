@@ -18,7 +18,7 @@ function UpdateProduct() {
                                       price: 1,
                                       description: ' ',
                                       stock: 0,
-                                      image: ' ',
+                                      image:null,
                                       images: [],  
                                   }])
 
@@ -51,7 +51,6 @@ function UpdateProduct() {
       [e.target.id]: e.target.value
     })
   }
-  console.log(data)
   // dispatch updateProduct
   const updateData = async () =>{
     await dispatch(updateProduct({id : id, data: data}))

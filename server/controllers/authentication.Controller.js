@@ -173,4 +173,16 @@ const resetPassword = async(req,res)=>{
     }
 }
 
-export {register, login, logout,accountActivation ,forgotPassword, resetPassword}
+// Verify Token validity
+const verifyToken = async(req,res)=>{
+    try {
+        
+        res.status(200).json({message : true})
+        
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({message : "Server Error!"}) 
+    }
+}
+
+export {register, login, logout,accountActivation ,forgotPassword, resetPassword, verifyToken}

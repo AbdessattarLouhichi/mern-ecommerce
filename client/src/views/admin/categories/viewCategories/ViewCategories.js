@@ -7,13 +7,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 function ViewCategories() {
-  // useState hook to filter and search products
+  // useState hook  filter 
   const [search, setSearch] = useState('')
   const [filterCategories, setFilterCategories] = useState([])
-  // usedipatch to dispatch action productSlice
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getAllCategories())
+  }, [dispatch])
+  
   const categories = useSelector((state) => state.category.categories)
-  console.log(categories)
   //react-data-table columns
   const columns = [
     {
@@ -41,14 +43,14 @@ function ViewCategories() {
     },
   ]
   // dispatch action
+
   useEffect(() => {
-    dispatch(getAllCategories())
-  }, [dispatch])
-  useEffect(() => {
-    const result = categories.filter((cat) => {
-      return cat.name.toLowerCase().match(search.toLowerCase())
-    })
-    setFilterCategories(result)
+    setTimeout(()=>{
+      const result = categories.filter((cat) => {
+        return cat.name.toLowerCase().match(search.toLowerCase())
+      })
+      setFilterCategories(result)
+    },500)
   }, [categories, search])
   return (
     <DataTable

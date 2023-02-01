@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { createCategory } from 'src/store/api/categoryApi';
-//import {useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 
 function AddCategory() {
-  const dispatch = useDispatch
- // const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [category, setCategory] = useState([{
                                           name: '',
                                           description :'',  
@@ -17,14 +17,12 @@ function AddCategory() {
     setCategory({...category,
       [e.target.id] : e.target.value,
     }) 
-    console.log(category)
   }
 
 
-  const addCategory = ()=>{
-    console.log(category)
-    //dispatch(createCategory(category))
-    //navigate('/admin/viewCategories')
+  const addCategory = async ()=>{
+    await dispatch(createCategory(category))
+    navigate('/admin/viewCategories')
   }
   return (
     <div>
@@ -32,9 +30,8 @@ function AddCategory() {
     <div className="row d-flex justify-content-center">
         
         <div className="col-10 bg-white my-4 p-5 rounded">
-           {/* Add Produt input form -*/}
             <form onSubmit={addCategory}>
-              {/* Product Name input type text*/}
+              {/* category Name input type text*/}
               <div className="form-group">
                 <label htmlFor="name" className="font-weight-bold">Category</label>
                 <input type="text" className="form-control" id="name" onChange={handleChange} placeholder="name"/>

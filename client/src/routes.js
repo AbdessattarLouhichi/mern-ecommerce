@@ -1,5 +1,6 @@
 import React from 'react'
 
+const Home = React.lazy(() => import('./views/pages/home/Home'))
 const Dashboard = React.lazy(() => import('./views/admin/dashboard/Dashboard'))
 const AddProduct = React.lazy(()=> import('./views/admin/product/addProduct/AddProduct'))
 const UpdateProduct = React.lazy(()=> import('./views/admin/product/updateProduct/UpdateProduct'))
@@ -7,9 +8,12 @@ const ViewProducts = React.lazy(()=> import('./views/admin/product/viewProducts/
 const AddCategory = React.lazy(() => import ('./views/admin/categories/addCategory/AddCategory'))
 const ViewCategories = React.lazy(() => import('./views/admin/categories/viewCategories/ViewCategories'))
 const UpdateCategory = React.lazy(()=> import('./views/admin/categories/updateCategory/UpdateCategory'))
-const Home = React.lazy(() => import('./views/pages/home/Home'))
+const ViewUsers = React.lazy(()=> import ('./views/admin/users/viewUsers/ViewUsers'))
+const UpdateUser = React.lazy(() => import('./views/admin/users/updateUser/UpdateUser'))
+const viewCustomers = React.lazy(()=> import ('./views/admin/customers/viewCustomers/ViewCustomers'))
 const Register = React.lazy(() => import('./views/pages/auth/register/Register'))
 const Login = React.lazy(() => import('./views/pages/auth/login/Login'))
+const Logout = React.lazy(() => import('./views/pages/auth/logout/Logout'))
 const Activation = React.lazy(() => import('./views/pages/auth/register/AccountActivation'))
 const ForgotPassword = React.lazy(() => import ('./views/pages/auth/forgotPassword/ForgotPassword'))
 const ResetPassword = React.lazy(() => import ('./views/pages/auth/resetPassword/ResetPassword'))
@@ -67,12 +71,16 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/register', exact: true, name: 'Register', element: Register },
   { path: '/login', exact: true, name: 'Login', element: Login },
+  { path: '/logout', exact: true, name: 'Logout', element: Logout },
   { path: '/accountActivation/:code', exact: true, name: 'AccountActivation', element: Activation },
   { path: '/forgotPassword', exact: true, name: 'ForgotPassword', element: ForgotPassword },
   { path: '/resetPassword/:token', exact: true, name: 'ResetPassword', element: ResetPassword },
-  { path: '/profile', exact: true, name: 'Profile', element: Profile },
+  { path: '/user/profile', exact: true, name: 'Profile', element: Profile },
   { path: '/home', exact: true, name: 'Home', element: Home },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/viewUsers', name: 'ViewUsers', element: ViewUsers },
+  { path: '/updateUser/:id', name: 'UpdateUser', element: UpdateUser },
+  { path: '/viewCustomers', name: 'ViewCustomers', element: viewCustomers },
   { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },
   { path: '/createProduct', name: 'AddProduct', element: AddProduct },
   { path: '/updateProduct/:id', name: 'UpdateProduct', element: UpdateProduct },

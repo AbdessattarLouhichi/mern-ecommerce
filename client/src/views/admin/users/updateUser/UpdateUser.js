@@ -1,30 +1,58 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import {Formik,Form,Field,ErrorMessage} from 'formik'
-import * as Yup from 'yup'
-import { register } from 'src/store/api/authApi'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from 'react-toastify'
+import { getUser, updateUser } from 'src/store/api/userApi'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 
-
-const Register = () => {
-  const navigate = useNavigate()
+function UpdateUser() {
   const dispatch = useDispatch()
+  const {id} = useParams();
+  const navigate = useNavigate()
+  const [data, setData] = useState([{
+    firstName: '',
+    lastName: '',
+    role: '',
+    phoneNumber: '',
+    photo:null,
+   }])
+
+//fetch Data 
+  useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      const response = await dispatch(getUser(id))
+      console.log(response)
+      // ...
+      return setData(response.payload.data)
+    }
+    fetchData()
+  }, [id, dispatch])
+ 
   
   const handleFileUpload = async (e,setFieldValue)=>{
     const file = e.target.files[0];
-    setFieldValue('photo', file) 
+    console.log(file)
+    setFieldValue('photo', file)
   }
 
-  const handleUser = async  (values)=>{
-    await dispatch(register(values))
+  const handleChange = (e)=>{
+    setData({...data,
+      [e.target.id]: e.target.value
+    })
+  }
+  console.log(data)
+  // dispatch updateUser
+  const updateData = async () =>{
+    await dispatch(updateUser({id : id, data: data}))
     .then((response) =>{ 
       toast.success(response.payload.message, {
         position: "top-center",
       })
       setTimeout(()=>{
-        navigate('/login')
+        navigate ('/admin/viewUsers')
       },3000)
     })
     .catch((error)=>{
@@ -35,75 +63,55 @@ const Register = () => {
     
   }
 
-   const initialValues ={
+  const initialValues ={
     firstName: '',
     lastName:'',
-    email:'',
-    password:'',
-    confPassword:'',
-    phoneNumber:''
+    role:'',
+    phoneNumber:'',
+    photo:''
    }
 
    const validationSchema = Yup.object({
-    firstName: Yup.string().required('Required'),
-    lastName: Yup.string().required('Required'),
-    email: Yup.string()
-      .email('Invalid email format')
-      .required('Required'),  
-    password: Yup.string()
-        .required('Password is required')
-        .min(8, 'Password is too short - should be 8 chars minimum.')
-        .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
-    confPassword: Yup.string()
-     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+    firstName: Yup.string(),
+    lastName: Yup.string(),
+    role: Yup.string(),  
     phoneNumber: Yup.number(),
   })
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-       <ToastContainer />
+      <ToastContainer />
           <div className="row d-flex justify-content-center align-items-center h-50">
             <div className="col-12 col-md-8 my-3">
               <div  className="card bg-white" style={{borderRadius: "1rem"}}>
                 <div className="card-body py-3 px-5">
                   <div className='mb-md-5 mt-md-4 pb-3'>
-                    <h2 className='text-center text-uppercase mb-3'>Create an account</h2>
                     <Formik
                         initialValues={initialValues}
                         validationSchema ={validationSchema}
-                        onSubmit = {handleUser}>
+                        onSubmit = {updateData}>
 
                         {formik => {
                         return(
                         <Form className="row g-3" encType="multipart/form-data">
-                            <div className="col-md-6">
+                            <div className="my-2">
                                 <label htmlFor="firstName" className="form-label">First Name</label>
-                                <Field type="text" className="form-control rounded-pill " id="firstName" name="firstName"/>
+                                <Field type="text"  id="firstName" name="firstName" value={data.firstName} onChange={handleChange} className="form-control rounded-pill "/>
                                 <ErrorMessage name='firstName' component={'div'} className="text-danger"/>
                             </div>
-                            <div className="col-md-6 ">
+                            <div className="my-2">
                                 <label htmlFor="validationServer02" className="form-label">Last Name</label>
-                                <Field type="text" className="form-control rounded-pill " id="lastName" name="lastName"/>
+                                <Field type="text"  id="lastName" name="lastName" value={data.lastName} onChange={handleChange} className="form-control rounded-pill"/>
                                 <ErrorMessage name='lastName' component={'div'} className="text-danger"/>
                             </div>
                             <div className=" my-2 ">
-                                <label htmlFor="email" className="">Email</label>
-                                <Field type="text"  className="form-control rounded-pill " id="email" name="email" placeholder='example@mail'/>
-                                <ErrorMessage name='email' component={'div'} className="text-danger" />
-                            </div>
-                            <div className=" my-2">
-                                <label htmlFor="password" className="">Password</label>
-                                <Field type="password" className="form-control rounded-pill" id="password" name="password" placeholder="Password"/>
-                                <ErrorMessage name='password' component={'div'} className="text-danger" />
-                            </div>
-                            <div className=" my-2">
-                                <label htmlFor="confPassword" className="">Confirm Password</label>
-                                <Field type="password" className="form-control rounded-pill " id="confPassword" name="confPassword"/>
-                                <ErrorMessage name='confPassword' component={'div'} className="text-danger" />
+                                <label htmlFor="role" className="">Role</label>
+                                <Field type="text"  id="role" name="role" value={data.role} onChange={handleChange}  className="form-control rounded-pill " placeholder='example: admin, customer'/>
+                                <ErrorMessage name='role' component={'div'} className="text-danger" />
                             </div>
                             <div className=" my-2">
                                 <label htmlFor="phoneNumber" className="">Phone Number</label>
-                                <Field type="number" className="form-control rounded-pill" id="phoneNumber" name="phoneNumber" placeholder="Password"/>
+                                <Field type="number"  id="phoneNumber" name="phoneNumber" value={data.phoneNumber} onChange={handleChange} className="form-control rounded-pill" placeholder="12-345-678"/>
                                 <ErrorMessage name='phoneNumber' component={'div'} className="text-danger" />
                             </div>
                             <div className="form-group my-2">
@@ -124,10 +132,8 @@ const Register = () => {
                                 </Field>
                             </div>
                             <div className="text-center d-grid gap-2">
-                                <button type="submit" className="btn btn-outline-light btn-dark btn-lg px-5 rounded-pill"  disabled={!formik.isValid || formik.isSubmitting}>Sign Up</button>
+                                <button type="submit" className="btn btn-outline-light btn-dark btn-lg px-5 rounded-pill"  disabled={!formik.isValid || formik.isSubmitting}>Update</button>
                             </div>
-                            <p className="text-center mt-3 mb-0">Have already an account? <Link to="/login"
-                                    className="fw-bold"><u>Login here</u></Link></p>
                         </Form>
                         )}}
                     </Formik>
@@ -140,4 +146,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default UpdateUser

@@ -111,12 +111,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Customer List',
-        to: '/admin/customers',
-      },
-      {
-        component: CNavItem,
-        name: 'Customer Detail',
-        to: '/admin/customers/customerDetail/:id',
+        to: '/admin/viewCustomers',
       },
     ],
   },
@@ -129,12 +124,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'User List',
-        to: '/admin/users',
-      },
-      {
-        component: CNavItem,
-        name: 'Add User',
-        to: '/admin/addUser',
+        to: '/admin/viewUsers',
       },
     ],
   },
