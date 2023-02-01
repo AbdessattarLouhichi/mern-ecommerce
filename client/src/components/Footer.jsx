@@ -3,6 +3,8 @@ import { Container } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faGoogle, faInstagram, faLinkedin, faPinterest, faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
+import { faHome, faMailReply, faPhone} from '@fortawesome/free-solid-svg-icons'
+import logo from '../assets/images/logo-ecommerce-shop-store.png'
 
 function Footer() {
   return (
@@ -19,10 +21,10 @@ function Footer() {
             <div className="d-flex justify-content-between mb-4 ">
                 <div className="col-md-1"></div>
                 <div><b>About</b>
-                    <div>Laptops & Computers</div>
-                    <div>Cameras & Photography</div>
-                    <div>Smart Phones & Tablets</div>
-                    <div>Video Games & Consoles</div>
+                    <div><img src={logo} alt="logo" width={60} /> </div>
+                    <div><FontAwesomeIcon icon={faHome} />1 Street Tunis 1000 Tunisia</div>
+                    <div><FontAwesomeIcon icon={faMailReply} /> contact@shop.com</div>
+                    <div><FontAwesomeIcon icon={faPhone} /> +216 00 00 00</div>
                 </div>
                 <div><b>Find It Fast</b>
                     <div>Laptops & Computers</div>
