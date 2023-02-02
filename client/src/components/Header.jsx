@@ -2,7 +2,7 @@ import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown, Button, Form } from 'react-bootstrap';
-import { useLocation} from 'react-router-dom';
+import { Link, useLocation} from 'react-router-dom';
 import logo from '../assets/images/logo-ecommerce-shop-store.png'
 function Header() {
     let  location = useLocation()
@@ -42,8 +42,11 @@ function Header() {
                 Logout
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="/cart">
-            {<FontAwesomeIcon icon={faShoppingCart} />}
+            <Nav.Link>
+              <Link to="/cart">
+              {<FontAwesomeIcon icon={faShoppingCart} />}
+              </Link>
+            
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

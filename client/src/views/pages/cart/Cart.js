@@ -11,6 +11,7 @@ function Cart() {
   const navigate = useNavigate()
   const id = localStorage.getItem('id')
   const dispatch = useDispatch()
+ 
   useEffect(()=>{
     dispatch(getCart(id))
   },[dispatch, id])
@@ -53,7 +54,7 @@ function Cart() {
       ) : (
         <>
           <table className='table bg-white '>
-            <thead>
+            <thead className="table-light">
               <tr>
                 <th  scope="col">s/n</th>
                 <th  scope="col">Product</th>
