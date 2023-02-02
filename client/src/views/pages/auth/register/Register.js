@@ -12,9 +12,15 @@ const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
-  const handleFileUpload = async (e,setFieldValue)=>{
-    const file = e.target.files[0];
-    setFieldValue('photo', file) 
+  const handleFileUpload = async (e, values)=>{
+    console.log(values)
+    let formData = new FormData()
+    const file = e.target.files[0]
+    Object.keys(values).forEach(fieldName =>{
+      formData.append(fieldName, values[fieldName])
+      })
+      console.log(formData)
+    formData.append('photo',file, file.name)  
   }
 
   const handleUser = async  (values)=>{
@@ -41,7 +47,8 @@ const Register = () => {
     email:'',
     password:'',
     confPassword:'',
-    phoneNumber:''
+    phoneNumber:'',
+    photo:''
    }
 
    const validationSchema = Yup.object({
@@ -116,8 +123,8 @@ const Register = () => {
                                   <input
                                     type="file"
                                     className='form-control-file'
-                              
-                                  onChange={(e) => handleFileUpload(e, setFieldValue)}
+                                    accept='image/*'
+                                  onChange={() => handleFileUpload}
                                     />
                                     )
                                   }}

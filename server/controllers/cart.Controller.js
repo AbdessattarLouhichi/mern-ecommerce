@@ -114,6 +114,38 @@ export const removeItem = async (req,res)=>{
     }
 }
 
+// Decrease item from cart
+export const decreaseItem = async (req,res)=>{
+    try {
+        const productId = req.params.id;
+        const cart = await Cart.findOne({customerId : req.user._id});
+        let product = await Product.findById(productId);
+        const item = await cart.find(p => p.productId == productId);
+        const index = cart.items.indexOf(item);
+        if(!item){
+           res.status(400).json({message : `The cart does not contain ${product.name}`})
+        }
+        if(item.quantity > 1){
+            item.quantity -= 1
+        }
+
+         //The New Cost of the shopping cart items 
+         let totalPrice = 0;
+         await cart.items.map( (item)=>{
+             totalPrice +=   item.quantity * item.price;
+            return  totalPrice
+         })
+         cart.cost = totalPrice;
+
+         //save cart
+         const data = await cart.save();
+         res.status(200).json({message: `${product.name} was successfully removed` ,cart : data})
+
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
 //Update Cart
 export const UpdateCart = async (req,res)=>{
     try {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { addCart,getAllCarts, getCart, removeItem, updateCart, deleteCart } from '../api/cartApi'
+import { addCart,getAllCarts, getCart, removeItem, updateCart, deleteCart, decreaseItem } from '../api/cartApi'
 
 const initialState = {
     loading: false,
@@ -23,6 +23,22 @@ const cartSlice = createSlice({
             state.error = ''
         })
         builder.addCase(addCart.rejected, (state, action) => {
+            state.loading = false
+            state.carts = []
+            state.success = false
+            state.error =  action.error.message
+        })
+        //Decrease item quantity
+        builder.addCase(decreaseItem.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(decreaseItem.fulfilled, (state, action) => {
+            state.loading = false
+            state.carts = action.payload
+            state.success = true
+            state.error = ''
+        })
+        builder.addCase(decreaseItem.rejected, (state, action) => {
             state.loading = false
             state.carts = []
             state.success = false

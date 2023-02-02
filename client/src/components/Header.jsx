@@ -42,7 +42,7 @@ function Header() {
                 Logout
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#">
+            <Nav.Link href="/cart">
             {<FontAwesomeIcon icon={faShoppingCart} />}
             </Nav.Link>
           </Nav>

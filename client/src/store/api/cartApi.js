@@ -22,6 +22,16 @@ export const removeItem = createAsyncThunk('cart/removeItem', async (id) => {
   }
 })
 
+//decrease Item quantity
+export const decreaseItem = createAsyncThunk('cart/decreaseItem', async (id) => {
+  try {
+    const response =  await axios.post('/cart/decreaseItem/' + id)
+    return response.data
+  } catch (error) {
+    console.log(error.message)
+  }
+})
+
 // Get Cart by Id
 export const getCart = createAsyncThunk('cart/getCart', async (id) => {
   try {

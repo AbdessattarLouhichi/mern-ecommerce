@@ -2,9 +2,11 @@ import React from 'react'
 
 const Home = React.lazy(() => import('./views/pages/home/Home'))
 const Dashboard = React.lazy(() => import('./views/admin/dashboard/Dashboard'))
+const Cart = React.lazy(()=> import ('./views/pages/cart/Cart'))
 const AddProduct = React.lazy(()=> import('./views/admin/product/addProduct/AddProduct'))
 const UpdateProduct = React.lazy(()=> import('./views/admin/product/updateProduct/UpdateProduct'))
 const ViewProducts = React.lazy(()=> import('./views/admin/product/viewProducts/ViewProducts'))
+const ProductDetail = React.lazy(()=> import('./views/pages/product/ProductDetail'))
 const AddCategory = React.lazy(() => import ('./views/admin/categories/addCategory/AddCategory'))
 const ViewCategories = React.lazy(() => import('./views/admin/categories/viewCategories/ViewCategories'))
 const UpdateCategory = React.lazy(()=> import('./views/admin/categories/updateCategory/UpdateCategory'))
@@ -84,9 +86,11 @@ const routes = [
   { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },
   { path: '/createProduct', name: 'AddProduct', element: AddProduct },
   { path: '/updateProduct/:id', name: 'UpdateProduct', element: UpdateProduct },
+  { path: '/productDetail', name: 'ProductDetail', element: ProductDetail },
   { path: '/viewCategories', name: 'ViewCategories', element: ViewCategories },
   { path: '/createCategory', name: 'AddCategory', element: AddCategory },
   { path: '/updateCategory/:id', name: 'UpdateCategory', element: UpdateCategory },
+  { path: '/cart', name: 'Cart', element: Cart },
   { path: '*', name: 'Page404', element: Page404 },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
