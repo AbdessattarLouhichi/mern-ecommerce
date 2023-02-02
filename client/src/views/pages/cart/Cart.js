@@ -15,6 +15,7 @@ function Cart() {
   
    const carts= useSelector((state)=> state.cart.carts)
    console.log(carts)
+  // console.log(carts.items)
    
    const increaseCart = (item) => {
     dispatch(addCart(item));
@@ -41,7 +42,7 @@ function Cart() {
     <>
     <Container>
       <h2>Shopping Cart</h2>
-      {carts.length === 0 ? (
+      {carts.items.length === 0 ? (
         <>
           <p>Your cart is currently empty.</p>
           <br />
@@ -63,8 +64,9 @@ function Cart() {
               </tr>
             </thead>
             <tbody>
-              {carts.map((cart, index) => {
-                const { id, name, price, image, quantity } = cart.items;
+              {carts.items.map((cart, index) => {
+                console.log(cart)
+                const { id, name, price, image, quantity } = cart;
                 return (
                   <tr key={id}>
                     <td>{index + 1}</td>

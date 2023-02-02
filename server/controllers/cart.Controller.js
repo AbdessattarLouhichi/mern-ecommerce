@@ -12,14 +12,16 @@ export const getCarts = async (req,res)=>{
 }
 
 // Get cart by id
-export const getcartById = async (res,req)=>{
+export const getcartByCustomerId = async (req,res)=>{
     try {
-        const cart = await Cart.findById(req.params.id);
-        res.status(200).json({cart : cart})
+
+       const cart = await Cart.findOne({customerId: req.params.id})
+        res.status(200).json({data : cart})
     } catch (error) {
-        res.status(500).json({message : error.message})
+        res.status(500).json({message : 'Server Error!'})
     }
-}
+};
+
 
 //create new cart and new item in exixting cart
 export const addCart = async (req,res)=>{
