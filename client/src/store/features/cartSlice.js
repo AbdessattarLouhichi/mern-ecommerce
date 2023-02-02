@@ -18,7 +18,7 @@ const cartSlice = createSlice({
         })
         builder.addCase(addCart.fulfilled, (state, action) => {
             state.loading = false
-            state.carts = action.payload
+            state.carts = action.payload.data
             state.success = true
             state.error = ''
         })
@@ -34,7 +34,7 @@ const cartSlice = createSlice({
         })
         builder.addCase(decreaseItem.fulfilled, (state, action) => {
             state.loading = false
-            state.carts = action.payload
+            state.carts = action.payload.data
             state.success = true
             state.error = ''
         })
@@ -50,7 +50,7 @@ const cartSlice = createSlice({
         })
         builder.addCase(removeItem.fulfilled, (state, action) => {
             state.loading = false
-            state.carts = action.payload
+            state.carts = action.payload.data
             state.success = true
             state.error = ''
         })
@@ -66,7 +66,7 @@ const cartSlice = createSlice({
         })
         builder.addCase(updateCart.fulfilled, (state, action) => {
             state.loading = false
-            state.carts = action.payload
+            state.carts = action.payload.data
             state.success = true
             state.error = ''
         })
@@ -82,7 +82,7 @@ const cartSlice = createSlice({
         })
         builder.addCase(getCart.fulfilled, (state, action) => {
             state.loading = false
-            state.carts = action.payload
+            state.carts = action.payload.data
             state.success = true
             state.error = ''
         })
@@ -98,7 +98,7 @@ const cartSlice = createSlice({
         })
         builder.addCase(getAllCarts.fulfilled, (state, action) => {
             state.loading = false
-            state.carts = action.payload
+            state.carts = action.payload.data
             state.success = true
             state.error = ''
         })

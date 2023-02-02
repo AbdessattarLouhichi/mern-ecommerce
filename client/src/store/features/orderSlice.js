@@ -8,11 +8,11 @@ const initialState = {
     error: '',
 }
 
-const orderslice = createSlice({
+const orderSlice = createSlice({
     name: 'order',
     initialState,
     extraReducers: (builder) => {
-        //create new Cart and add orders
+        //Checkout
         builder.addCase(checkout.pending, (state) => {
             state.loading = true
         })
@@ -79,4 +79,4 @@ const orderslice = createSlice({
     }
 })
 
-export default orderslice.reducer
+export default orderSlice.reducer

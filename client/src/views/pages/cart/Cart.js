@@ -1,22 +1,24 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react'
-import { Card, Container } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
-import { addCart, deleteCart, removeItem, decreaseItem, getCart } from 'src/store/api/cartApi';
+import { Card, Container } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { addCart, deleteCart, removeItem, decreaseItem, getCart } from 'src/store/api/cartApi'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 function Cart() {
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const id = localStorage.getItem('id')
-  useEffect(() => {
-      dispatch(getCart(id))
-  }, [dispatch,id])
-  
-   const carts= useSelector((state)=> state.cart.carts)
-   console.log(carts)
-  // console.log(carts.items)
-   
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getCart(id))
+  },[dispatch, id])
+
+   const cart= useSelector((state)=> state.cart.carts)
+   console.log(cart)
+   console.log(cart.items)
+   const items = cart.items
    const increaseCart = (item) => {
     dispatch(addCart(item));
   };
@@ -34,15 +36,13 @@ function Cart() {
   };
   const checkout = (e) =>{
     e.preventDefault()
-    Navigate('/checkout')
+    navigate('/checkout')
   }
-
-
   return (
     <>
     <Container>
       <h2>Shopping Cart</h2>
-      {carts.items.length === 0 ? (
+      {items.lenght === 0 ? (
         <>
           <p>Your cart is currently empty.</p>
           <br />
@@ -52,21 +52,20 @@ function Cart() {
         </>
       ) : (
         <>
-          <table>
+          <table className='table bg-white '>
             <thead>
               <tr>
-                <th>s/n</th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th>Action</th>
+                <th  scope="col">s/n</th>
+                <th  scope="col">Product</th>
+                <th  scope="col">Price</th>
+                <th  scope="col">Quantity</th>
+                <th  scope="col">Total</th>
+                <th  scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {carts.items.map((cart, index) => {
-                console.log(cart)
-                const { id, name, price, image, quantity } = cart;
+              {items.map((item, index) => {
+                const { id, name, price, image, quantity } = item;
                 return (
                   <tr key={id}>
                     <td>{index + 1}</td>
@@ -85,7 +84,7 @@ function Cart() {
                       <div>
                         <button
                           className="--btn"
-                          onClick={() => decreaseCart(cart)}
+                          onClick={() => decreaseCart(item)}
                         >
                           -
                         </button>
@@ -94,15 +93,15 @@ function Cart() {
                         </p>
                         <button
                           className="--btn"
-                          onClick={() => increaseCart(cart)}
+                          onClick={() => increaseCart(item)}
                         >
                           +
                         </button>
                       </div>
                     </td>
-                    <td>{(price * quantity).toFixed(2)}</td>
+                    <td>{(price * quantity)}</td>
                     <td>
-                      <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(cart)}>
+                      <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(item)}>
                         <FontAwesomeIcon icon={faTrash} className="text-white" />
                       </button>
                     </td>
@@ -112,7 +111,7 @@ function Cart() {
             </tbody>
           </table>
           <div>
-            <button className="--btn --btn-danger" onClick={clearCart}>
+            <button className="btn btn-danger" onClick={clearCart}>
               Clear Cart
             </button>
             <div >
@@ -122,11 +121,11 @@ function Cart() {
               <br />
               <Card>
                 <p>
-                  <b> {`Cart item(s): ${carts.cost}`}</b>
+                  <b> {`Cart item(s): ${cart.cost}`}</b>
                 </p>
                 <div>
                   <h4>Subtotal:</h4>
-                  <h3>{`$${carts.cost.toFixed(2)}`}</h3>
+                  <h3>{`$${cart.cost}`}</h3>
                 </div>
                 <p>Tax an shipping calculated at checkout</p>
                 <button
