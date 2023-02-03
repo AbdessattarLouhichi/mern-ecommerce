@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Outlet } from 'react-router-dom'
+import { getUser } from 'src/store/api/userApi'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
 
 const AdminLayout = () => {
+  const id = localStorage.getItem('id')
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getUser(id))  
+}, [dispatch, id])
   return (
     <div>
       <AppSidebar />

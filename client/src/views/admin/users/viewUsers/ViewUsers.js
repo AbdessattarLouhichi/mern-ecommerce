@@ -21,7 +21,7 @@ function ViewUsers() {
   const columns = [
     {
       name: 'Image',
-      selector: (row) => <img alt="User" width={50} height={50} src={row.photo} />,
+      selector: (row) => <img alt="User" width={50} height={50} src={row.photo} className="rounded-circle" />,
     },
     {
       name: 'Name',

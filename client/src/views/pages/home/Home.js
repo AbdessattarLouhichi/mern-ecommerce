@@ -5,13 +5,17 @@ import { getAllProducts } from 'src/store/api/productApi'
 import Brands from 'src/components/Brands'
 import  ProductCard from "../../../components/ProductCard"
 import  Slider from "../../../components/Slider"
+import { getCart } from 'src/store/api/cartApi'
 
 function Home() {
   const dispatch = useDispatch()
-
+  const id = localStorage.getItem('id')
   useEffect(() => {
     dispatch(getAllProducts())
   }, [dispatch])
+  useEffect(()=>{
+    dispatch(getCart(id))
+  },[dispatch, id])
   const products = useSelector((state)=> state.product.products)
   return (
     <>

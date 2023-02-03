@@ -24,7 +24,10 @@ function OnlyAdminRoute({children, Roles}) {
     console.log(user.role)
    const verifyRole = Roles.includes(user.role)
     if(!token || !verifyRole){
-        return <Navigate to="/login" />
+        setTimeout(()=>{
+            return <Navigate to="/login" />
+        },1000)
+        
     }
   return  children
 }
