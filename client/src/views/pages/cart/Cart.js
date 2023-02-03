@@ -84,7 +84,7 @@ function Cart() {
                     <td>
                       <div>
                         <button
-                          className="--btn"
+                          className="btn"
                           onClick={() => decreaseCart(item)}
                         >
                           -
@@ -93,14 +93,14 @@ function Cart() {
                           <b>{quantity}</b>
                         </p>
                         <button
-                          className="--btn"
+                          className="btn"
                           onClick={() => increaseCart(item)}
                         >
                           +
                         </button>
                       </div>
                     </td>
-                    <td>{(price * quantity)}</td>
+                    <td>{(price * quantity).toFixed(2)}</td>
                     <td>
                       <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(item)}>
                         <FontAwesomeIcon icon={faTrash} className="text-white" />
@@ -130,7 +130,7 @@ function Cart() {
                 </div>
                 <p>Tax an shipping calculated at checkout</p>
                 <button
-                  className="--btn --btn-primary --btn-block"
+                  className="btn btn-primary btn-block"
                   onClick={checkout}
                 >
                   Checkout

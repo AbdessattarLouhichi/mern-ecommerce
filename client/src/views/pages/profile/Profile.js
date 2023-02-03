@@ -20,7 +20,7 @@ function Profile() {
             <figure className=''>
                 <img className="rounded-circle img-fluid" src={avatar3} alt='' />
             </figure>
-            <Link to="/users/updateUser" id="edit_profile" className="btn btn-primary btn-block my-5">
+            <Link to={`/users/updateProfile/${id}`} id="edit_profile" className="btn btn-primary btn-block my-5">
                 Edit Profile
             </Link>
         </div>

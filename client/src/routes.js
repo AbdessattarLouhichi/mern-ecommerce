@@ -82,6 +82,7 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/viewUsers', name: 'ViewUsers', element: ViewUsers },
   { path: '/updateUser/:id', name: 'UpdateUser', element: UpdateUser },
+  { path: '/users/updateProfile/:id', name: 'UpdateUser', element: UpdateUser },
   { path: '/viewCustomers', name: 'ViewCustomers', element: viewCustomers },
   { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },
   { path: '/createProduct', name: 'AddProduct', element: AddProduct },

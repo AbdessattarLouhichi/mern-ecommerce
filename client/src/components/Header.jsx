@@ -33,13 +33,15 @@ function Header() {
       
             <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="navbarScrollingDropdown">
             <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-              <NavDropdown.Item href="/user/profile">Profile</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Orders
+              <NavDropdown.Item>
+                <Link to="/user/profile"> Profile</Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to="/orders">Orders</Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/logout">
-                Logout
+              <NavDropdown.Item>
+                <Link to="/logout">Logout</Link>
               </NavDropdown.Item>
             </NavDropdown>
             <Nav.Link>
