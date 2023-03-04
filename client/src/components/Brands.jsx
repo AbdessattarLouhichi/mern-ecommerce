@@ -6,7 +6,7 @@ import LogoBrands from 'src/assets/brand/LogoBrands'
 const Brands = () => {
 
   return (
-    <section className='bg-light py-5'>
+    <section className=' py-5'>
       <Container fluid className=' my-4'>
         <Row className=' text-center py-3'>
           <Col lg={6} className='m-auto'>

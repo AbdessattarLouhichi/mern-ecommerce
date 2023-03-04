@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import avatar3 from 'src/assets/images/avatars/3.jpg'
 import { getUser } from 'src/store/api/userApi'
 
 function Profile() {
@@ -18,9 +17,9 @@ function Profile() {
     <div className="row justify-content-around mt-5">
         <div className="col-12 col-md-3">
             <figure className=''>
-                <img className="rounded-circle img-fluid" src={avatar3} alt='' />
+                <img className="rounded-circle img-fluid" src={user.photo} alt='' />
             </figure>
-            <Link to={`/users/updateProfile/${id}`} id="edit_profile" className="btn btn-primary btn-block my-5">
+            <Link to={`/user/editProfile/${id}`} id="edit_profile" className="btn btn-primary btn-block my-5">
                 Edit Profile
             </Link>
         </div>

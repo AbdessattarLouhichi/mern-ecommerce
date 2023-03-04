@@ -11,7 +11,9 @@ function Logout() {
 
   useEffect(() => {
     dispatch(logout())
-    .then((response) =>{ 
+    .then((response) =>{
+      console.log(response)
+      localStorage.clear()
       //SUCCESS LOGIN MESSAGE!  You are successfully logout
       toast.success(response.payload.message, {
         position: "top-center",
@@ -20,7 +22,10 @@ function Logout() {
         navigate('/')
       },3000)
     })
-  
+    .catch((error)=>{
+      toast.error(error.response.data.message)
+    })
+    
     
   }, [dispatch, navigate])
   

@@ -9,7 +9,7 @@ import logo from '../assets/images/logo-ecommerce-shop-store.png'
 function Footer() {
   return (
     <>
-        <Container fluid className='bg-light' >
+        <Container fluid className='' >
             <div className="d-flex justify-content-center text-center mb-5 pt-4">
                 <Link to="#!" className="text-warning"><FontAwesomeIcon icon={faFacebook} className="mx-2 btn btn-lg" /></Link>
                 <Link to="#!" className="text-warning"><FontAwesomeIcon icon={faTwitter} className="mx-2 btn btn-lg" /></Link>

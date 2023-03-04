@@ -2,16 +2,15 @@ import React from 'react'
 
 const Home = React.lazy(() => import('./views/pages/home/Home'))
 const Dashboard = React.lazy(() => import('./views/admin/dashboard/Dashboard'))
-const Cart = React.lazy(()=> import ('./views/pages/cart/Cart'))
+const Cart = React.lazy(()=> import ('./views/pages/cart/Cart2'))
+const Checkout = React.lazy(()=> import ('./views/pages/checkout/StripeContainer'))
 const AddProduct = React.lazy(()=> import('./views/admin/product/addProduct/AddProduct'))
-const UpdateProduct = React.lazy(()=> import('./views/admin/product/updateProduct/UpdateProduct'))
 const ViewProducts = React.lazy(()=> import('./views/admin/product/viewProducts/ViewProducts'))
 const ProductDetail = React.lazy(()=> import('./views/pages/product/ProductDetail'))
 const AddCategory = React.lazy(() => import ('./views/admin/categories/addCategory/AddCategory'))
 const ViewCategories = React.lazy(() => import('./views/admin/categories/viewCategories/ViewCategories'))
 const UpdateCategory = React.lazy(()=> import('./views/admin/categories/updateCategory/UpdateCategory'))
 const ViewUsers = React.lazy(()=> import ('./views/admin/users/viewUsers/ViewUsers'))
-const UpdateUser = React.lazy(() => import('./views/admin/users/updateUser/UpdateUser'))
 const viewCustomers = React.lazy(()=> import ('./views/admin/customers/viewCustomers/ViewCustomers'))
 const Register = React.lazy(() => import('./views/pages/auth/register/Register'))
 const Login = React.lazy(() => import('./views/pages/auth/login/Login'))
@@ -20,6 +19,7 @@ const Activation = React.lazy(() => import('./views/pages/auth/register/AccountA
 const ForgotPassword = React.lazy(() => import ('./views/pages/auth/forgotPassword/ForgotPassword'))
 const ResetPassword = React.lazy(() => import ('./views/pages/auth/resetPassword/ResetPassword'))
 const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
+const EditProfile = React.lazy(()=> import('./views/pages/profile/EditProfile'))
 const Page404 = React.lazy(() => import('./views/pages/otherPages/page404/Page404'))
 
 // Base
@@ -78,20 +78,19 @@ const routes = [
   { path: '/forgotPassword', exact: true, name: 'ForgotPassword', element: ForgotPassword },
   { path: '/resetPassword/:token', exact: true, name: 'ResetPassword', element: ResetPassword },
   { path: '/user/profile', exact: true, name: 'Profile', element: Profile },
+  { path: '/user/editProfile/:id', exact: true, name: 'EditProfile', element: EditProfile },
   { path: '/home', exact: true, name: 'Home', element: Home },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/viewUsers', name: 'ViewUsers', element: ViewUsers },
-  { path: '/updateUser/:id', name: 'UpdateUser', element: UpdateUser },
-  { path: '/users/updateProfile/:id', name: 'UpdateUser', element: UpdateUser },
   { path: '/viewCustomers', name: 'ViewCustomers', element: viewCustomers },
   { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },
   { path: '/createProduct', name: 'AddProduct', element: AddProduct },
-  { path: '/updateProduct/:id', name: 'UpdateProduct', element: UpdateProduct },
   { path: '/productDetail', name: 'ProductDetail', element: ProductDetail },
   { path: '/viewCategories', name: 'ViewCategories', element: ViewCategories },
   { path: '/createCategory', name: 'AddCategory', element: AddCategory },
   { path: '/updateCategory/:id', name: 'UpdateCategory', element: UpdateCategory },
   { path: '/cart', name: 'Cart', element: Cart },
+  { path: '/checkout', name: 'Chekout', element: Checkout },
   { path: '*', name: 'Page404', element: Page404 },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },

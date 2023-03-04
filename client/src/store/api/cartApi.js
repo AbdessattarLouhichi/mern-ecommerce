@@ -36,12 +36,13 @@ export const decreaseItem = createAsyncThunk('cart/decreaseItem', async (id) => 
 export const getCart = createAsyncThunk('cart/getCart', async (id) => {
   try {
     const response = await axios.get('/carts/' + id)
+    console.log(response)
     return response.data
   } catch (error) {
     console.log(error.message)
   }
 })
-// Get All Products
+// Get All Carts
 export const getAllCarts = createAsyncThunk('product/getAllCarts', async () => {
   try {
     const response = await axios.get('/carts')
@@ -50,7 +51,7 @@ export const getAllCarts = createAsyncThunk('product/getAllCarts', async () => {
     console.log(error.message)
   }
 })
-// Update Product
+// Update cart
 export const updateCart = createAsyncThunk('product/updateCart', async (values) => {
   try {
     const response = await axios.put('/carts/' + values.id, values.data)
@@ -59,7 +60,7 @@ export const updateCart = createAsyncThunk('product/updateCart', async (values) 
     console.log(error.message)
   }
 })
-// Delete Product
+// Delete cart
 export const deleteCart = createAsyncThunk('product/deleteCart', async (id) => {
   try {
     if (window.confirm('Do you want to remove?')){

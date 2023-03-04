@@ -5,8 +5,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import path from 'path'
-import { fileURLToPath } from 'url';
 import db from './config/connect.js';
 import authRoutes from "./routes/authApi.js";
 import userRoutes from "./routes/userApi.js";
@@ -35,9 +33,9 @@ app.use(session({
   }))
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, '/storages/uploads')));
+
+
+app.use('/storages/uploads', express.static('storages/uploads'));
 // Initialize Routes
 app.use('/api', authRoutes)
 app.use('/api', userRoutes)

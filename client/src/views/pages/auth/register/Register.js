@@ -11,27 +11,20 @@ import { toast, ToastContainer } from 'react-toastify'
 const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  
-  const handleFileUpload = async (e, values)=>{
+
+  // submit form
+  const handleUser = async  (values)=>{
     console.log(values)
     let formData = new FormData()
-    const file = e.target.files[0]
     Object.keys(values).forEach(fieldName =>{
       formData.append(fieldName, values[fieldName])
       })
-      console.log(formData)
-    formData.append('photo',file, file.name)  
-  }
-
-  const handleUser = async  (values)=>{
-    await dispatch(register(values))
+    await dispatch(register(formData))
     .then((response) =>{ 
+      navigate('/login')
       toast.success(response.payload.message, {
         position: "top-center",
       })
-      setTimeout(()=>{
-        navigate('/login')
-      },3000)
     })
     .catch((error)=>{
       toast.error(error.message , {
@@ -40,7 +33,7 @@ const Register = () => {
     }) 
     
   }
-
+  //Initial values
    const initialValues ={
     firstName: '',
     lastName:'',
@@ -50,7 +43,7 @@ const Register = () => {
     phoneNumber:'',
     photo:''
    }
-
+   // Yup Validation
    const validationSchema = Yup.object({
     firstName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
@@ -67,7 +60,7 @@ const Register = () => {
   })
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    <div className="min-vh-100 d-flex flex-row align-items-center">
        <ToastContainer />
           <div className="row d-flex justify-content-center align-items-center h-50">
             <div className="col-12 col-md-8 my-3">
@@ -124,7 +117,7 @@ const Register = () => {
                                     type="file"
                                     className='form-control-file'
                                     accept='image/*'
-                                  onChange={() => handleFileUpload}
+                                  onChange={(e) =>  setFieldValue('photo', e.target.files[0])}
                                     />
                                     )
                                   }}

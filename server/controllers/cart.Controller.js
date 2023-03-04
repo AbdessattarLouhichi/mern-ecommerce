@@ -16,7 +16,7 @@ export const getcartByCustomerId = async (req,res)=>{
     try {
 
        const cart = await Cart.findOne({customerId: req.params.id})
-        res.status(200).json({data : cart})
+        res.status(200).json(cart)
     } catch (error) {
         res.status(500).json({message : 'Server Error!'})
     }

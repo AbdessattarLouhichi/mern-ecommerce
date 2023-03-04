@@ -51,7 +51,7 @@ function Login() {
 
 
   return (
-    <div className="bg-light  d-flex flex-row justify-content-center align-items-center">
+    <div className=" d-flex flex-row justify-content-center align-items-center">
       <ToastContainer />
             <div className="col-12 col-md-8 col-lg-6 col-xl-5 my-3">
               <div  className="card bg-white" style={{borderRadius: "1rem"}}>

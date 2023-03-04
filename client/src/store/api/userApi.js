@@ -30,9 +30,14 @@ export const getAllCustomers = createAsyncThunk('user/getAllCustomers', async ()
     }
   })
   // Update user
-export const updateUser = createAsyncThunk('user/updateUser', async (values) => {
+export const updateUser = createAsyncThunk('user/updateUser', async (data) => {
   try {
-    const response = await axios.put('/users/' + values.id, values.data)
+    let values = data.data;
+    let formData = new FormData()
+    Object.keys(values).forEach(fieldName =>{
+      formData.append(fieldName, values[fieldName])
+      })
+    const response = await axios.put('/users/' + data.id, formData)
     return response.data
   } catch (error) {
     console.log(error.message)

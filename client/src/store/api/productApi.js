@@ -29,9 +29,15 @@ export const createProduct = createAsyncThunk('product/createProdcut', async (va
   }
 })
 // Update Product
-export const updateProduct = createAsyncThunk('product/updateProduct', async (values) => {
+export const updateProduct = createAsyncThunk('product/updateProduct', async (data) => {
   try {
-    const response = await axios.put('/products/' + values.id, values.data)
+    let values = data.data;
+    console.log(values)
+    let formData = new FormData()
+    Object.keys(values).forEach(fieldName =>{
+      formData.append(fieldName, values[fieldName])
+      })
+    const response = await axios.put('/products/' + data.id, formData)
     return response.data
   } catch (error) {
     console.log(error.message)

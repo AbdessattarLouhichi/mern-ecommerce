@@ -84,7 +84,8 @@ const login = async (req,res)=>{
                 // generate user token
                 const data={
                     userId : user._id,
-                    userEmail:user.email
+                    userEmail:user.email,
+                    role: user.role
                 }
                 const token = jwt.sign(data,process.env.SECRET_KEY, {expiresIn : '2h'});
 
@@ -102,7 +103,7 @@ const login = async (req,res)=>{
 
 // logout 
 const logout = async (req, res) => {
-    try {
+    
       await req.logout((err) => {
         if (err) {
           res.status(500).json({ message:  err.message  });
@@ -110,10 +111,7 @@ const logout = async (req, res) => {
           res.json({ message: "Successfully Logged Out" });
         }
       });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error.message });
-    }
+   
   }
 
 //Forgot Password

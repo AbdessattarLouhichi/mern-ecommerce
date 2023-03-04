@@ -17,12 +17,12 @@ function ViewUsers() {
   }, [dispatch])
   
   const users = useSelector((state) => state.user.users)
-  console.log(users)
+
   //react-data-table columns
   const columns = [
     {
       name: 'Image',
-      selector: (row) => <img alt="User" width={50} height={50} src={row.photo} />,
+      selector: (row) => <img alt="User" width={50} height={50} src={row.photo} className="rounded-circle" />,
     },
     {
       name: 'Name',
@@ -52,6 +52,7 @@ function ViewUsers() {
     },
   ]
   
+  //filter users
   useEffect(() => {
     setTimeout(()=>{
       const result = users.filter((user) => {

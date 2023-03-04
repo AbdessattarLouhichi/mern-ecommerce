@@ -4,7 +4,7 @@ import './scss/style.scss'
 import ClientLayout from './layout/ClientLayout'
 import Profile from './views/pages/profile/Profile'
 import PrivateRoute from './components/PrivateRoute'
-import OnlyAdminRoute from './components/OnlyAdminRoute'
+
 
 const loading = (
   <div className="pt-3 text-center">
@@ -29,9 +29,9 @@ class App extends Component {
         <Suspense fallback={loading}>
           <Routes>
             <Route path="/admin/*" element={
-              <OnlyAdminRoute Roles={["admin","superAdmin"]}>
+              <PrivateRoute Roles={["admin","superAdmin"]}>
                 <AdminLayout />
-              </OnlyAdminRoute>}>  
+              </PrivateRoute>}>  
             </Route>
             <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
             <Route element={<ClientLayout />}>
@@ -43,7 +43,7 @@ class App extends Component {
               <Route exact path="/500" name="Page 500" element={<Page500 />} />
             </Route>
             <Route element={
-              <PrivateRoute >
+              <PrivateRoute Roles={["customer","admin","superAdmin"]} >
                 <ClientLayout />
               </PrivateRoute> 
             }>

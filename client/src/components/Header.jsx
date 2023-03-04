@@ -9,7 +9,7 @@ function Header() {
     console.log(location.pathname)
 
   return (
-    <Navbar bg="light" expand="lg" fixed="top" className='pb-0 mb-5' >
+    <Navbar bg="white" expand="lg" fixed="top" className='pb-0 mb-5' >
       <Container fluid>
         <Navbar.Brand href="/" className='me-5 ms-3'>
           <img src={logo} height="70" width="70" alt='logo' />

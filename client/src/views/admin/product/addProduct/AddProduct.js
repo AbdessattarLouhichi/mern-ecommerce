@@ -15,14 +15,15 @@ function AddProduct() {
 
   const categories = useSelector((state) => state.category.categories)
   const addProduct = (values) => {
-    dispatch(createProduct(values))
+    let formData = new FormData();
+    
+    Object.keys(values).forEach(fieldName => {
+      formData.append(fieldName, values[fieldName]);
+    });
+    dispatch(createProduct(formData))
     navigate('/admin/viewProducts')
   }
-  const handleFileUpload = async (e,setFieldValue)=>{
-    const file = e.target.files[0];
-    console.log(file)
-    setFieldValue('image', file)
-  }
+ 
   const initialValues = {
     name: '',
     category: '',
@@ -115,7 +116,7 @@ function AddProduct() {
                             <input
                               type="file"
                               className='form-control-file'
-                              onChange={(e) => handleFileUpload(e, setFieldValue)}
+                              onChange={(e) =>  setFieldValue('image', e.target.files[0]) }
                             />
                           )
                         }}

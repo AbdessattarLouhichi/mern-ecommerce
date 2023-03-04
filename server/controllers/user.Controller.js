@@ -25,7 +25,7 @@ export const getAllCustomers = async (req,res)=>{
 export const getUser = async (req,res)=>{
     try {
         const user = await User.findById(req.params.id);
-        res.status(200).json({data : user})
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({message : 'Server Error!'})
     }

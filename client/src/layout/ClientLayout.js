@@ -5,7 +5,7 @@ import Footer from 'src/components/Footer'
 const ClientLayout = () => {
   return (
     <>
-      <div className="wrapper d-flex flex-column min-vh-100 bg-light">
+      <div className="wrapper d-flex flex-column min-vh-100">
         <Header />
         <div className="body flex-grow-1 px-3 mt-5 pt-5">
           <AppContent />

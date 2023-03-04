@@ -12,29 +12,39 @@ function Cart() {
   const id = localStorage.getItem('id')
   const dispatch = useDispatch()
  
+  // Default value of empty cart
+  const emptyCart = { items : []}
   useEffect(()=>{
-    dispatch(getCart(id))
+    // declare the data fetching function
+  const fetchData = async () => {
+    await dispatch(getCart(id)) ;
+  }
+
+  // call the function
+  fetchData()
+    // make sure to catch any error
+    .catch(console.error);
   },[dispatch, id])
 
-   const cart= useSelector((state)=> state.cart.carts)
-   console.log(cart)
-   console.log(cart.items)
-   const items = cart.items
+   const cart= useSelector((state)=> state.cart.carts || emptyCart)
+  console.log(cart)
+  
+  
    const increaseCart = (item) => {
     dispatch(addCart(item));
-  };
+  }
 
   const decreaseCart = (item) => {
     dispatch(decreaseItem(item));
-  };
+  }
 
   const removeFromCart = (item) => {
     dispatch(removeItem(item));
-  };
+  }
 
   const clearCart = () => {
-    dispatch(deleteCart());
-  };
+    dispatch(deleteCart(cart._id))
+  }
   const checkout = (e) =>{
     e.preventDefault()
     navigate('/checkout')
@@ -43,16 +53,16 @@ function Cart() {
     <>
     <Container>
       <h2>Shopping Cart</h2>
-      {items.lenght === 0 ? (
-        <>
+      { (cart.items === 0 ) ? (
+        <div>
           <p>Your cart is currently empty.</p>
           <br />
           <div>
             <Link to="/home">&larr; Continue shopping</Link>
           </div>
-        </>
+        </div>
       ) : (
-        <>
+        <div>
           <table className='table bg-white '>
             <thead className="table-light">
               <tr>
@@ -65,10 +75,10 @@ function Cart() {
               </tr>
             </thead>
             <tbody>
-              {items.map((item, index) => {
-                const { id, name, price, image, quantity } = item;
+              { cart.items.map((item, index) => {
+                const { productId, name, price, image, quantity } = item;
                 return (
-                  <tr key={id}>
+                  <tr key={item._id}>
                     <td>{index + 1}</td>
                     <td>
                       <p>
@@ -85,7 +95,7 @@ function Cart() {
                       <div>
                         <button
                           className="btn"
-                          onClick={() => decreaseCart(item)}
+                          onClick={() => decreaseCart(productId)}
                         >
                           -
                         </button>
@@ -94,7 +104,7 @@ function Cart() {
                         </p>
                         <button
                           className="btn"
-                          onClick={() => increaseCart(item)}
+                          onClick={() => increaseCart({productId: productId, quantity: 1})}
                         >
                           +
                         </button>
@@ -102,7 +112,7 @@ function Cart() {
                     </td>
                     <td>{(price * quantity).toFixed(2)}</td>
                     <td>
-                      <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(item)}>
+                      <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(productId)}>
                         <FontAwesomeIcon icon={faTrash} className="text-white" />
                       </button>
                     </td>
@@ -130,7 +140,7 @@ function Cart() {
                 </div>
                 <p>Tax an shipping calculated at checkout</p>
                 <button
-                  className="btn btn-primary btn-block"
+                  className="btn btn-primary"
                   onClick={checkout}
                 >
                   Checkout
@@ -138,7 +148,7 @@ function Cart() {
               </Card>
             </div>
           </div>
-        </>
+        </div>
       )}
     </Container>
   </>

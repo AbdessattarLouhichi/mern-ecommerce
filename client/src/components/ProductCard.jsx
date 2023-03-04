@@ -6,7 +6,6 @@ import { formatCurrency } from "../utilities/formatCurrency"
 function ProductCard(item) {
     const dispatch = useDispatch()
     const addItem = async(data)=>{
-        console.log(data)
         await dispatch(addCart(data))
     }
     return (

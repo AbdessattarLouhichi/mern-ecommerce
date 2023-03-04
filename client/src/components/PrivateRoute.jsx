@@ -1,20 +1,33 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
-//import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css'
+import { toast} from 'react-toastify'
+import jwt_decode from 'jwt-decode'
 
-function PrivateRoute({children}) {
-    const token = localStorage.getItem('token')
-   /* const [isValid, setIsValid] = useState(false)
-    const validity = async()=>{
-        await axios.get('/tokenValidity')
-        setIsValid(true)
-        console.log(isValid)
+// Check for token expiration
+const isExpiredToken = (token)=>{
+    const decoded = jwt_decode(token)
+    return Math.floor(new Date().getTime()/1000)>=decoded.exp
+}
+function PrivateRoute({children, Roles}) {
+  const token = localStorage.getItem('token')
+  const verifyRole = Roles.includes(jwt_decode(token).role)
+  if (token !== null) {
+    const expire = isExpiredToken(token)
+    if (expire) {
+        toast.error('Token Expired!')
+        localStorage.removeItem('token')
+        return < Navigate to='/login' />
+    } else if(!verifyRole){
+        toast.error('Only Admin!')
+        return < Navigate to='/' />
+    } else {
+        return children
     }
-    validity()*/
-    if(!token){
-        return <Navigate to="/login" />
-    }
-  return  children
+  } else {
+    localStorage.removeItem('token')
+    return < Navigate to='/login' />
+  }
 }
 
 export default PrivateRoute

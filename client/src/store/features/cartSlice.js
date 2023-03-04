@@ -82,7 +82,7 @@ const cartSlice = createSlice({
         })
         builder.addCase(getCart.fulfilled, (state, action) => {
             state.loading = false
-            state.carts = action.payload.data
+            state.carts = action.payload
             state.success = true
             state.error = ''
         })
