@@ -9,7 +9,7 @@ router.post('/cart/addItem',passport.authenticate('bearer', {session : false}), 
 router.get('/carts', passport.authenticate('bearer', {session : false}),authRole(["admin","superAdmin"]) ,getCarts);
 router.get('/carts/:id',passport.authenticate('bearer', {session : false}),getcartByCustomerId);
 router.put('/carts/:id',passport.authenticate('bearer', {session : false}),UpdateCart);
-router.put('/cart/decreaseItem/:id',decreaseItem)
+router.put('/cart/decreaseItem/:id',passport.authenticate('bearer', {session : false}),decreaseItem)
 router.delete('/carts/:id',passport.authenticate('bearer', {session : false}), deleteCart);
 router.delete('/cart/removeItem/:id',passport.authenticate('bearer', {session : false}),removeItem);
 

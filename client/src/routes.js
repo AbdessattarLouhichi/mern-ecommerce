@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = React.lazy(() => import('./views/pages/home/Home'))
 const Dashboard = React.lazy(() => import('./views/admin/dashboard/Dashboard'))
-const Cart = React.lazy(()=> import ('./views/pages/cart/Cart2'))
+const Cart = React.lazy(()=> import ('./views/pages/cart/Cart'))
 const Checkout = React.lazy(()=> import ('./views/pages/checkout/StripeContainer'))
 const AddProduct = React.lazy(()=> import('./views/admin/product/addProduct/AddProduct'))
 const ViewProducts = React.lazy(()=> import('./views/admin/product/viewProducts/ViewProducts'))

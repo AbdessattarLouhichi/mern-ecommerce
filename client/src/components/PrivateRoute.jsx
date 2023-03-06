@@ -19,7 +19,7 @@ function PrivateRoute({children, Roles}) {
         localStorage.removeItem('token')
         return < Navigate to='/login' />
     } else if(!verifyRole){
-        toast.error('Only Admin!')
+        toast.error('Not authorized!')
         return < Navigate to='/' />
     } else {
         return children

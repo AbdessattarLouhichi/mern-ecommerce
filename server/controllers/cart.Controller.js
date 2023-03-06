@@ -44,8 +44,8 @@ export const addCart = async (req,res)=>{
         // product exists
         const productName = product.name;
         const productPrice = parseInt(product.price) ;
-       
-
+        const image = product.image
+        console.log(image)
         // if the cart exists 
         if(cart){
             // check the product in the customer cart 
@@ -57,7 +57,7 @@ export const addCart = async (req,res)=>{
                 item.quantity += quantity
             }else {
                 // product doesn't exist , add  the product to the items array
-                await cart.items.push({productId : productId,name : productName, quantity : quantity, price : productPrice})
+                await cart.items.push({productId : productId,name : productName, quantity : quantity, price : productPrice, image : image})
             }
            
             //The total cost of the shopping cart items 
@@ -70,15 +70,15 @@ export const addCart = async (req,res)=>{
 
             //save cart
             const data = await cart.save();
-            res.status(200).json({cart : data})
+            res.status(200).json(data)
         }else{
             // !cart => Create a new cart and add item to that cart
            const newCart =  await Cart.create({
                 customerId,
-                items : [{productId : productId,name : productName, quantity : quantity, price : productPrice}],
+                items : [{productId : productId,name : productName, quantity : quantity, price : productPrice, image: image}],
                 cost : quantity*productPrice
             });
-            res.status(200).json({cart : newCart})
+            res.status(200).json(newCart)
         }
             
     } catch (error) {
@@ -91,8 +91,10 @@ export const removeItem = async (req,res)=>{
     try {
         const productId = req.params.id;
         const cart = await Cart.findOne({customerId : req.user._id});
+       
         let product = await Product.findById(productId);
-        const item = await cart.find(p => p.productId == productId);
+        const item = await cart.items.find(p => p.productId == productId);
+      
         const index = cart.items.indexOf(item);
         if(!item){
            res.status(400).json({message : `The cart does not contain ${product.name}`})
@@ -122,8 +124,7 @@ export const decreaseItem = async (req,res)=>{
         const productId = req.params.id;
         const cart = await Cart.findOne({customerId : req.user._id});
         let product = await Product.findById(productId);
-        const item = await cart.find(p => p.productId == productId);
-        const index = cart.items.indexOf(item);
+        const item = await cart.items.find(p => p.productId == productId);
         if(!item){
            res.status(400).json({message : `The cart does not contain ${product.name}`})
         }
@@ -141,7 +142,7 @@ export const decreaseItem = async (req,res)=>{
 
          //save cart
          const data = await cart.save();
-         res.status(200).json({message: `${product.name} was successfully removed` ,cart : data})
+         res.status(200).json(data)
 
     } catch (error) {
         res.status(500).json({message : error.message})
