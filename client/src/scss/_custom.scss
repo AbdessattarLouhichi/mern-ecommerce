@@ -1,1 +1,34 @@
 // Here you can add other styles
+a{
+    text-decoration: none;
+}
+.pagination {
+    text-decoration: none;  
+    list-style: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination .page-num{
+    font-size: 1rem;
+    border-radius: 3px;
+    min-width: 3rem;
+    height: 3rem;
+    padding: 3px;
+    margin-right: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.pagination .page-num:hover{
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.activePage {
+    background-color:  #17a2b8;
+    color: #fff;
+  }

@@ -10,7 +10,7 @@ function Slider() {
   };
 
   return (
-    <div className='container-fluid mt-5 pt-5'>
+    <div className='container-fluid my-5 pt-5'>
         <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
                 <img

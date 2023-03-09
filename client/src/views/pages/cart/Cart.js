@@ -101,7 +101,7 @@ function Cart() {
                                                             <div className="col-md-2 col-lg-3 col-xl-3">
                                                             <h6 className="text-black mb-0">{name}</h6>
                                                             </div>
-                                                            <div className="col-md-4 col-lg-4 col-xl-3 d-flex justity-content-between align-items-baseline">
+                                                            <div className="col-md-3 col-lg-4 col-xl-3 d-flex justity-content-between align-items-baseline">
                                                             <button  className="btn btn-link text-warning"  onClick={() => decreaseCart(productId)} >
                                                                 <FontAwesomeIcon icon={faMinus} />
                                                             </button>
@@ -115,7 +115,7 @@ function Cart() {
                                                             <div className="col-md-2 col-lg-2 col-xl-2 offset-lg-1">
                                                             <h6 className="mb-0">{(price * quantity).toFixed(2)}</h6>
                                                             </div>
-                                                            <div className="col-md-2 col-lg-1 col-xl-1 text-end">
+                                                            <div className="col-md-1 col-lg-1 col-xl-1 text-end">
                                                                 <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(productId)}>
                                                                     <FontAwesomeIcon icon={faTrash} className="text-white" />
                                                                 </button>
@@ -131,7 +131,7 @@ function Cart() {
                                                 </button>
                                             </div>
                                             <div className="pt-5">
-                                                <h6 className="mb-0"><a href="/home" className="text-body"><FontAwesomeIcon icon={faArrowAltCircleLeft} />Back to shop</a></h6>
+                                                <h6 className="mb-0"><Link to="/home" className="text-body"><FontAwesomeIcon icon={faArrowAltCircleLeft} />Back to shop</Link></h6>
                                             </div>
                                         </div>
                                     </div>

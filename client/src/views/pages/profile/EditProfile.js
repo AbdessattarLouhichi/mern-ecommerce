@@ -47,7 +47,7 @@ function EditProfile() {
   return (
     <div>
       <ToastContainer />
-          <div className="row d-flex justify-content-center align-items-center h-50">
+          <div className="row d-flex justify-content-center align-items-center h-50 py-5">
             <div className="col-12 col-md-8 my-3">
               <div  className="card bg-white" style={{borderRadius: "1rem"}}>
                 <div className="card-body py-3 px-5">

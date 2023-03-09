@@ -85,7 +85,7 @@ const routes = [
   { path: '/viewCustomers', name: 'ViewCustomers', element: viewCustomers },
   { path: '/viewProducts', name: 'ViewProducts', element: ViewProducts },
   { path: '/createProduct', name: 'AddProduct', element: AddProduct },
-  { path: '/productDetail', name: 'ProductDetail', element: ProductDetail },
+  { path: '/productDetail/:id', name: 'ProductDetail', element: ProductDetail },
   { path: '/viewCategories', name: 'ViewCategories', element: ViewCategories },
   { path: '/createCategory', name: 'AddCategory', element: AddCategory },
   { path: '/updateCategory/:id', name: 'UpdateCategory', element: UpdateCategory },

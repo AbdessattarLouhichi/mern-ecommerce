@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Loading from 'src/components/Loading'
 import { getUser } from 'src/store/api/userApi'
 
 function Profile() {
@@ -14,14 +15,17 @@ function Profile() {
   return (
     <div className="container">
     <h2 className="mt-5 ml-5">My Profile</h2>
+    {(user === undefined) ? Loading :(
     <div className="row justify-content-around mt-5">
         <div className="col-12 col-md-3">
             <figure className=''>
                 <img className="rounded-circle img-fluid" src={user.photo} alt='' />
             </figure>
-            <Link to={`/user/editProfile/${id}`} id="edit_profile" className="btn btn-primary btn-block my-5">
-                Edit Profile
-            </Link>
+            <div className="text-center d-grid gap-2">
+                <Link to={`/user/editProfile/${id}`} id="edit_profile" className="btn btn-primary btn-block my-5">
+                    Edit Profile
+                </Link>
+            </div>
         </div>
  
         <div className="col-12 col-md-5">
@@ -53,6 +57,7 @@ function Profile() {
            
         </div>
     </div>
+    )}
 </div>
 
   )

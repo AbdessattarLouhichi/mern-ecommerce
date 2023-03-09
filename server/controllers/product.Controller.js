@@ -1,3 +1,4 @@
+import { BaseURL } from '../config/config.js';
 import Product from '../models/product.js'
 
 //Create Product
@@ -5,7 +6,7 @@ export const createProduct = async (req,res)=>{
     try {
         if(req.file){
             const fileName = req.file.filename;
-            const filePath =  `http://localhost:3000/storages/uploads/${fileName}`;
+            const filePath =  `${BaseURL}/storages/uploads/${fileName}`;
             req.body.image = filePath;
         }
         const product = await Product.create(req.body);
@@ -30,7 +31,7 @@ export const getAllProducts = async (req,res)=>{
 export const getProduct = async (req,res)=>{
     try {
         const product = await Product.findById(req.params.id);
-        res.status(200).json({data : product})
+        res.status(200).json(product)
     } catch (error) {
         res.status(500).json({message : 'Server Error!'})
     }
@@ -41,7 +42,7 @@ export const updateProduct = async (req,res)=>{
     try {
         if(req.file){
             const fileName = req.file.filename;
-            const filePath =  `http://localhost:3000/storages/uploads/${fileName}`;
+            const filePath =  `${BaseURL}/storages/uploads/${fileName}`;
             req.body.image = filePath;
         }
         await Product.findByIdAndUpdate(req.params.id, req.body)
@@ -58,7 +59,7 @@ export const updateProductImages = async(req,res)=>{
         if(req.files){
             let filesPaths =[];
             req.files.map((file)=>{
-                filesPaths.push(`http://localhost:3000/storages/uploads/${file.filename}`)
+                filesPaths.push(`${BaseURL}/storages/uploads/${file.filename}`)
             })
         }
         await Product.findByIdAndUpdate(req.params.id, {images : filesPaths},{ new: true });

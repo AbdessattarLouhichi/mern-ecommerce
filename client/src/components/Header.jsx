@@ -1,18 +1,38 @@
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, NavDropdown, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getCart } from 'src/store/api/cartApi';
+import Search from 'src/components/Search'
 import logo from '../assets/images/logo-ecommerce-shop-store.png'
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FILTER_BY_SEARCH } from 'src/store/features/filterSlice';
+import { getAllProducts } from 'src/store/api/productApi';
 
 
 function Header() {
+  // useState hook 
+  const [search, setSearch] = useState("");
+
   //get user id from localStorage
   const id = localStorage.getItem('id')
   const dispatch = useDispatch()
+
+ // dispatch get All products
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [dispatch])
+// product state
+  const products = useSelector((state)=> state.product.products)
+
+  // dispatch filter by search
+  useEffect(() => {
+    dispatch(FILTER_BY_SEARCH({ products, search }));
+  }, [dispatch, products, search]);
+
+
+
     // Default value of empty cart
     const emptyCart = { items : []}
     useEffect(()=>{
@@ -29,7 +49,7 @@ function Header() {
 
     let totalItems = 0;
     const cart= useSelector((state)=> state.cart.carts || emptyCart)
-     cart.items.map((item)=>{
+     cart.items?.map((item)=>{
       const {quantity } = item;
       return totalItems += quantity
      })
@@ -37,20 +57,15 @@ function Header() {
   return (
     <Navbar bg="light" expand="lg" fixed="top" className='pb-0 mb-5 align-items-center' >
       <Container fluid>
-        <Navbar.Brand href="/" className='me-5 ms-3'>
-          <img src={logo} height="70" width="70" alt='logo' />
+        <Navbar.Brand className='me-5 ms-3'>
+          <Link to="/">
+            <img src={logo} height="70" width="70" alt='logo' />
+          </Link>
+          
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll" className=' justify-content-between mx-3'>
-        <Form className="d-flex mx-5 col-10 col-lg-8 ">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2 rounded-pill"
-              aria-label="Search"
-            />
-            <Button variant="outline-success" className='rounded-pill'>Search</Button>
-          </Form>
+          <Search value={Search} className="me-2 rounded-pill" onChange={(e) => setSearch(e.target.value)} />
           <Nav
             className="mx-3 my-2 my-lg-0 align-items-center"
             style={{ maxHeight: '100px' }}
@@ -58,16 +73,16 @@ function Header() {
           >
       
             <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="navbarScrollingDropdown">
-            <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+            <NavDropdown.Item href="/login" >Login</NavDropdown.Item>
               <NavDropdown.Item>
-                <Link to="/user/profile"> Profile</Link>
+                <Link to="/user/profile" style={{textDecoration: "none"}}> Profile</Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-                <Link to="/orders">Orders</Link>
+                <Link to="/orders" style={{textDecoration: "none"}}>Orders</Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item>
-                <Link to="/logout">Logout</Link>
+                <Link to="/logout" style={{textDecoration: "none"}}>Logout</Link>
               </NavDropdown.Item>
             </NavDropdown>
             <Nav.Link>

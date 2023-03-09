@@ -138,7 +138,7 @@ function ViewProducts() {
         ariaHideApp={false}
         contentLabel="Update Modal"
       >
-        <div>Update user here<FontAwesomeIcon onClick={closeModal} icon={faXmark} className='float-end cursor-pointer p-2' /></div>
+        <div>Update product here<FontAwesomeIcon onClick={closeModal} icon={faXmark} className='float-end cursor-pointer p-2' /></div>
         <Formik
           initialValues={productToUpdate || { name: '', category:'', description: '', price:1, stock:0 }}
           validate={values => {
@@ -231,7 +231,7 @@ function ViewProducts() {
                 <input type='file' onChange={(e)=>setFieldValue('images', e.target.files)} className='form-control' multiple />
                 <div className='mt-4'>
                   <button type="submit" className='btn btn-success px-5' disabled={isSubmitting}>
-                    Update user
+                    Update Product
                   </button>
                 </div>
               </form>
