@@ -10,6 +10,16 @@ export const getProduct = createAsyncThunk('product/getProduct', async (id) => {
     console.log(error.message)
   }
 })
+
+// Select one product
+export const selectProduct = createAsyncThunk('selectedItem/selectProduct', async (id) => {
+  try {
+    const response = await axios.get('/products/' + id)
+    return response.data
+  } catch (error) {
+    console.log(error.message)
+  }
+})
 // Get All Products
 export const getAllProducts = createAsyncThunk('product/getAllProducts', async () => {
   try {

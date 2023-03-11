@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Nav, Navbar, NavDropdown, Button, Form } from 'react-bootstrap';
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getCart } from 'src/store/api/cartApi';
@@ -12,48 +12,68 @@ import { getAllProducts } from 'src/store/api/productApi';
 
 
 function Header() {
+  const dispatch = useDispatch()
   // useState hook 
   const [search, setSearch] = useState("");
+  const [userId,setUserId] = ('')
 
-  //get user id from localStorage
-  const id = localStorage.getItem('id')
-  const dispatch = useDispatch()
+  // fetch user 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const id = await localStorage.getItem('id')
+      setUserId(id)
+    }
+    fetchUser()
+   
+  }, [userId])
+  
+
+
+  if(localStorage.getItem('cart') == null){
+    localStorage.setItem('cart', JSON.stringify({items :[], cost:0}))
+  }
+  
 
  // dispatch get All products
   useEffect(() => {
     dispatch(getAllProducts())
   }, [dispatch])
 // product state
-  const products = useSelector((state)=> state.product.products)
+  const products = useSelector((state)=> state.product.products || [{}])
 
   // dispatch filter by search
   useEffect(() => {
-    dispatch(FILTER_BY_SEARCH({ products, search }));
+    if (products.length > 1) {
+      dispatch(FILTER_BY_SEARCH({ products, search }));
+    }
+    
   }, [dispatch, products, search]);
 
+ 
 
-
-    // Default value of empty cart
-    const emptyCart = { items : []}
+// get cart by userId
     useEffect(()=>{
         // declare the data fetching function
-    const fetchData = async () => {
-        await dispatch(getCart(id)) ;
+      const fetchData = async () => {
+        await dispatch(getCart(userId)) ;
     }
 
     // call the function
     fetchData()
         // make sure to catch any error
         .catch((error)=> console.log(error) );
-    },[dispatch, id])
+    },[dispatch, userId])
 
     let totalItems = 0;
-    const cart= useSelector((state)=> state.cart.carts || emptyCart)
+    const cart= useSelector((state)=> state.cart.carts || JSON.parse(localStorage.getItem('cart')))
+    
      cart.items?.map((item)=>{
       const {quantity } = item;
       return totalItems += quantity
      })
     
+    
+
   return (
     <Navbar bg="light" expand="lg" fixed="top" className='pb-0 mb-5 align-items-center' >
       <Container fluid>
@@ -65,7 +85,8 @@ function Header() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll" className=' justify-content-between mx-3'>
-          <Search value={Search} className="me-2 rounded-pill" onChange={(e) => setSearch(e.target.value)} />
+          {/* serach form */}
+          <Search defaultValue={Search} className="me-2 rounded-pill" onChange={(e) => setSearch(e.target.value)} />
           <Nav
             className="mx-3 my-2 my-lg-0 align-items-center"
             style={{ maxHeight: '100px' }}

@@ -6,33 +6,40 @@ import Brands from 'src/components/Brands'
 import  ProductCard from "../../../components/product/ProductCard"
 import ProductFilter from 'src/components/product/ProductFilter'
 import  Slider from "../../../components/Slider"
-import { getCart } from 'src/store/api/cartApi'
+//import { getCart } from 'src/store/api/cartApi'
 //import { Link } from 'react-router-dom'
 import Loading from 'src/components/Loading'
 import { selectFilteredProducts, SORT_PRODUCTS } from 'src/store/features/filterSlice'
 import { BsFillGridFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 import ReactPaginate from 'react-paginate';
+import Item from 'src/components/product/Item'
+import { getCart } from 'src/store/api/cartApi'
+
 
 
 function Home() {
   const dispatch = useDispatch()
-  const id = localStorage.getItem('id')
-  // useState hook
+
+  // initialize  an emty cart in LS if cart not found
+  if(!localStorage.getItem('cart')){
+    localStorage.setItem('cart', JSON.stringify({items :[], cost:0}))
+  }
+
+  // fetch user Id
+  //const userId = localStorage.getItem('id')
+  
+  // useState hook 
   const [sort, setSort] = useState("latest");
   const [grid, setGrid] = useState(true);
-
   const [itemsPerPage] = useState(9)
+  const [userId,setUserId] = ('')
 
   // dispatch get All products
   useEffect(() => {
     dispatch(getAllProducts())
   }, [dispatch])
 
-  // dispatch get cart by user id
-  useEffect(()=>{
-    dispatch(getCart(id))
-  },[dispatch, id])
 
   // product state
   const products = useSelector((state)=> state.product.products)
@@ -50,6 +57,7 @@ function Home() {
   }, [dispatch, products, sort]);
 
   //pagination
+  // pagination states useState hook
   const [currentItems, setCurrentItems] = useState(null)
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0);
@@ -62,11 +70,31 @@ function Home() {
    
   }, [itemOffset,itemsPerPage, filteredProducts])
   
-
+  // handle click to change page
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % filteredProducts.length;
     setItemOffset(newOffset);
   };
+
+  // fetch user 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const id = await localStorage.getItem('id')
+      setUserId(id)
+    }
+    fetchUser()
+   
+  }, [userId])
+  
+
+
+  // Shopping Cart
+   // dispatch get cart by user id
+   useEffect(()=>{
+    dispatch(getCart(userId))
+  },[dispatch, userId])
+
+  
 
   return (
     <>
@@ -75,7 +103,7 @@ function Home() {
       </div>
       <Container>
         <h1>Products</h1>
-        <Row className='py-5'>
+        <Row className='py-2'>
           <aside className='col-3  py-2 border border-light' >
             <ProductFilter />
           </aside>
@@ -92,7 +120,7 @@ function Home() {
                 <FaListAlt size={24} color="#0066d4" onClick={() => setGrid(false)} className="mx-2" />
               </div>
               <p>
-                <b>{filteredProducts.length}</b> Products found.
+                <b>{filteredProducts ? filteredProducts.length : null}</b> Products found.
               </p>
               {/* Sort Products */}
               <div>
@@ -108,12 +136,17 @@ function Home() {
             </div>
 
             {/* Products view */}
-            <Row md={2} xs={1} lg={3} className="g-3">
-            {(products === undefined) ? Loading : (currentItems?.map(item => (
+            <Row xs={1} md={grid? 2 : 1} lg={grid? 3 : 1} className="g-3" >
+            {(products === undefined) ? Loading : (grid ? (currentItems?.map(item => (
                 <Col key={item._id}>
                   <ProductCard {...item} />
                 </Col>
-              )))}
+              ))) : (currentItems?.map(item => (
+                <Col key={item._id}>
+                  <Item {...item} />
+                </Col>
+              )))
+              )}
             </Row>
             <Row className='border border-light pt-2  mt-2 mx-1'>
               <ReactPaginate
@@ -136,7 +169,8 @@ function Home() {
           
         </Row>
       </Container>
-      <Brands/>
+        <Brands/>
+       
     </>  
   )
 }

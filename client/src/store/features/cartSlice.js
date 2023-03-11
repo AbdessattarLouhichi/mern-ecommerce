@@ -3,7 +3,7 @@ import { addCart,getAllCarts, getCart, removeItem, updateCart, deleteCart, decre
 
 const initialState = {
     loading: false,
-    carts: [],
+    carts: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {items :[], cost:0},
     success: false,
     error: '',
 }

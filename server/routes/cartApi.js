@@ -13,4 +13,7 @@ router.put('/cart/decreaseItem/:id',passport.authenticate('bearer', {session : f
 router.delete('/carts/:id',passport.authenticate('bearer', {session : false}), deleteCart);
 router.delete('/cart/removeItem/:id',passport.authenticate('bearer', {session : false}),removeItem);
 
+
+// Anonymous User
+
 export default router;

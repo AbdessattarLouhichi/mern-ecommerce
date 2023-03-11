@@ -59,6 +59,7 @@ function ProductFilter() {
     // clear All Filters
     const clearFilters =  () => {
         filterProducts('All')
+        setCategory('All')
         setBrand("All");
         setPrice(1000);
       };

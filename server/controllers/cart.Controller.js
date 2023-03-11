@@ -29,7 +29,9 @@ export const addCart = async (req,res)=>{
         // find customer 
         const customerId = req.user._id;
         
-        const productId = req.body.productId;
+        const item = req.body.item;
+        const productId = item._id;
+        console.log(productId)
         const quantity = parseInt(req.body.quantity); 
 
         // verify if a cart exists for the customer
@@ -45,7 +47,7 @@ export const addCart = async (req,res)=>{
         const productName = product.name;
         const productPrice = parseInt(product.price) ;
         const image = product.image
-        console.log(image)
+        
         // if the cart exists 
         if(cart){
             // check the product in the customer cart 

@@ -7,6 +7,7 @@ import { addCart, deleteCart, removeItem, decreaseItem, getCart } from 'src/stor
 import { toast } from 'react-toastify';
 
 
+
 function Cart() {
     let numberOfItems = 0;
     const navigate = useNavigate()
@@ -14,7 +15,7 @@ function Cart() {
     const dispatch = useDispatch()
     
     // Default value of empty cart
-    const emptyCart = { items : []}
+    //const emptyCart = { items : []}
     useEffect(()=>{
         // declare the data fetching function
     const fetchData = async () => {
@@ -27,19 +28,19 @@ function Cart() {
         .catch(console.error);
     },[dispatch, id])
 
-    const cart= useSelector((state)=> state.cart.carts || emptyCart)
+    const cart= useSelector((state)=> state.cart.carts || JSON.parse(localStorage.getItem('cart')))
     
-    
-    const increaseCart = (item) => {
-        dispatch(addCart(item));
+    // increase Item quantity
+    const increaseCart = async(data)=>{
+        await dispatch(addCart(data))  
+      }
+    // decrease Item quantity
+    const decreaseCart = async (data) => {
+       await dispatch(decreaseItem(data));
     }
-
-    const decreaseCart = (item) => {
-        dispatch(decreaseItem(item));
-    }
-
-    const removeFromCart = async (item) => {
-       await dispatch(removeItem(item))
+    // Remove item from cart
+    const removeFromCart = async (data) => {
+       await dispatch(removeItem(data))
        .then((response)=>{
         toast.success(response.payload.message, {
             position: "top-center",
@@ -51,14 +52,17 @@ function Cart() {
         })
       }) 
     }
-
-    const clearCart = () => {
-        dispatch(deleteCart(cart._id))
+    // Delete All Items from cart
+    const clearCart = async () => {
+       await dispatch(deleteCart(cart._id))
     }
+
+    // navidate to checkout 
     const checkout = (e) =>{
         e.preventDefault()
         navigate('/checkout')
     }
+
   return (
     <>
         <section className="h-100 h-custom py-5">
@@ -84,12 +88,12 @@ function Cart() {
                                             </div>
                                             <hr className="my-4" />
                                             { cart.items.map((item) => {
-                                                const { productId, name, price, image, quantity } = item;
-                                                numberOfItems += quantity
                                                 console.log(item)
+                                                const { name, price, image, quantity } = item;
+                                                numberOfItems += quantity
                                                 return (
                                                     <>
-                                                        <div className="row mb-4 d-flex justify-content-between align-items-center" key={productId}>
+                                                        <div className="row mb-4 d-flex justify-content-between align-items-center" key={item._id}>
                                                             <div className="col-md-2 col-lg-2 col-xl-2">
                                                             <img
                                                                 src={image}
@@ -102,13 +106,13 @@ function Cart() {
                                                             <h6 className="text-black mb-0">{name}</h6>
                                                             </div>
                                                             <div className="col-md-3 col-lg-4 col-xl-3 d-flex justity-content-between align-items-baseline">
-                                                            <button  className="btn btn-link text-warning"  onClick={() => decreaseCart(productId)} >
+                                                            <button  className="btn btn-link text-warning"  onClick={() => decreaseCart(item)} >
                                                                 <FontAwesomeIcon icon={faMinus} />
                                                             </button>
 
                                                             <p className='border border-warning px-2'>{quantity}</p>
 
-                                                            <button className="btn btn-link px-2 text-success" onClick={() => increaseCart({productId: productId, quantity: 1})}>
+                                                            <button className="btn btn-link px-2 text-success" onClick={() => increaseCart({item, quantity: 1})}>
                                                             <FontAwesomeIcon icon={faPlus} />
                                                             </button>
                                                             </div>
@@ -116,7 +120,7 @@ function Cart() {
                                                             <h6 className="mb-0">{(price * quantity).toFixed(2)}</h6>
                                                             </div>
                                                             <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                                <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(productId)}>
+                                                                <button  className="btn btn-danger btn-sm" onClick={() => removeFromCart(item)}>
                                                                     <FontAwesomeIcon icon={faTrash} className="text-white" />
                                                                 </button>
                                                             </div>

@@ -6,9 +6,13 @@ import { formatCurrency } from "../../utilities/formatCurrency"
 
 function ProductCard(item) {
     const dispatch = useDispatch()
+    
+  
+    // add item to cart
     const addItem = async(data)=>{
-        await dispatch(addCart(data))
+      await dispatch(addCart(data))  
     }
+
     return (
       <Card className="h-100">
          <Link to={'/productDetail/' +item._id} style={{textDecoration: "none"}} >
@@ -25,7 +29,7 @@ function ProductCard(item) {
             <span className="fs-6 text-muted">{formatCurrency(item.price)}</span>
           </Card.Title>
           <div className="mt-auto">
-            <Button className="w-100" onClick={() => addItem({productId: item._id, quantity: 1})}>
+            <Button className="w-100" onClick={() => addItem({item: item, quantity: 1})}>
                 + Add To Cart
             </Button>
           </div>

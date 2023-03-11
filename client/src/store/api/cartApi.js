@@ -1,12 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from '../../config/config'
+import { addAnonymCart } from 'src/components/AnonymousCart'
 
+
+// get user id from LS
+const id = localStorage.getItem('id')
 
 // Add new product
 export const addCart = createAsyncThunk('cart/addCart', async (data) => {
+  console.log(data)
     try {
-      const response =  await axios.post('/cart/addItem', data)
-      return response.data
+      if (id) {
+        const response =  await axios.post('/cart/addItem', data)
+        return response.data  
+      } else {
+        addAnonymCart(data)
+      }
+        
     } catch (error) {
       console.log(error.message)
     }
@@ -36,6 +46,11 @@ export const decreaseItem = createAsyncThunk('cart/decreaseItem', async (id) => 
 export const getCart = createAsyncThunk('cart/getCart', async (id) => {
   try {
     const response = await axios.get('/carts/' + id)
+    console.log(response)
+    if(response.data != null){
+      localStorage.setItem('cart', JSON.stringify(response.data))
+    }
+    
     return response.data
   } catch (error) {
     console.log(error.message)

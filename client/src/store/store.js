@@ -7,7 +7,8 @@ import userReducer from './features/userSlice'
 import cartReducer from './features/cartSlice'
 import orderReducer from './features/orderSlice'
 import filterReducer from './features/filterSlice'
-/*import storage from 'redux-persist/lib/storage';
+import seletedItemReducer from './features/selectedItemSlice'
+import storage from 'redux-persist/lib/storage';
 import {
   persistStore,
   persistReducer,
@@ -22,7 +23,7 @@ import {
 const persistConfig = {
   key: 'root',
   storage,
-}*/
+}
 
 const rootReducer = combineReducers({
     global: globalReducer,
@@ -33,17 +34,24 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     order: orderReducer,
     filter: filterReducer,
+    selectedItem : seletedItemReducer,
   
 })
 
-//const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
  
 
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 })
-//export const persistor = persistStore(store)
-export default store
+export const persistor = persistStore(store)
+//export default store
 

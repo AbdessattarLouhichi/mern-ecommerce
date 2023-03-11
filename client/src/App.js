@@ -1,9 +1,10 @@
-import React, { Component, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import './scss/style.scss'
 import ClientLayout from './layout/ClientLayout'
 import Profile from './views/pages/profile/Profile'
 import PrivateRoute from './components/PrivateRoute'
+import ErrorBoundary from './components/ErrorBoundary'
 
 
 const loading = (
@@ -23,16 +24,18 @@ const Page404 = React.lazy(() => import('./views/pages/otherPages/page404/Page40
 const Page500 = React.lazy(() => import('./views/pages/otherPages/page500/Page500'))
 const ProductDetail = React.lazy(()=> import('./views/pages/product/ProductDetail'))
 
-class App extends Component {
-  render() {
+function App() {
     return (
       <BrowserRouter>
         <Suspense fallback={loading}>
           <Routes>
             <Route path="/admin/*" element={
-              <PrivateRoute Roles={["admin","superAdmin"]}>
-                <AdminLayout />
-              </PrivateRoute>}>  
+              <ErrorBoundary>
+                  <PrivateRoute Roles={["admin","superAdmin"]}>
+                    <AdminLayout />
+                  </PrivateRoute>
+              </ErrorBoundary>
+              }>  
             </Route>
             <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
             <Route element={<ClientLayout />}>
@@ -45,9 +48,12 @@ class App extends Component {
               <Route exact path="/500" name="Page 500" element={<Page500 />} />
             </Route>
             <Route element={
-              <PrivateRoute Roles={["customer","admin","superAdmin"]} >
-                <ClientLayout />
-              </PrivateRoute> 
+              <ErrorBoundary>
+                <PrivateRoute Roles={["customer","admin","superAdmin"]} >
+                  <ClientLayout />
+                </PrivateRoute> 
+              </ErrorBoundary>
+              
             }>
               <Route exact path="/user/profile" name="Profile Page" element={<Profile />} />
             </Route>
@@ -56,6 +62,6 @@ class App extends Component {
       </BrowserRouter>
     )
   }
-}
+
 
 export default App
